@@ -1,0 +1,28 @@
+ services:
+  web:
+    image: nginx
+    ports:
+     - 85:80
+    volumes:
+      - /home/dugarova/my-php-project/Docker/Nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /home/dugarova/my-php-project:/var/www/html
+
+  php-fpm:
+   container_name: php-fpm
+
+   build: /home/dugarova/my-php-project/Docker/php-fpm
+   volumes:
+    - /home/dugarova/my-php-project:/var/www/html
+
+  postgres_db:
+    image: postgres:13.1
+    volumes:
+    - ./Docker/postgres/data:/var/lib/postgresql/data
+    environment:
+
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+    ports:
+      - 5433:5432
