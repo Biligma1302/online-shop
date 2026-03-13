@@ -4,20 +4,22 @@
     ports:
      - 85:80
     volumes:
-      - /home/dugarova/my-php-project/Docker/Nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - /home/dugarova/my-php-project:/var/www/html
+      - /home/dugarova/PhpstormProjects/online-shop/Docker/Nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /home/dugarova/PhpstormProjects/online-shop:/var/www/html
 
   php-fpm:
    container_name: php-fpm
 
-   build: /home/dugarova/my-php-project/Docker/php-fpm
+   build: ./Docker/php-fpm
    volumes:
-    - /home/dugarova/my-php-project:/var/www/html
+    - /home/dugarova/PhpstormProjects/online-shop:/var/www/html
+    - ./Docker/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-xdebug.ini
 
   postgres_db:
     image: postgres:13.1
+    container_name: postgres_db
     volumes:
-    - ./Docker/postgres/data:/var/lib/postgresql/data
+      - ./Docker/postgres/data:/var/lib/postgresql/data
     environment:
 
       - POSTGRES_DB=${POSTGRES_DB}
