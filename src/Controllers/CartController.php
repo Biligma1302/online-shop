@@ -1,8 +1,17 @@
 <?php
 
+namespace Controllers;
+use Model\Cart;
 class cartController
 {
-      public function displayCart() {
+    private Cart $cartModel;
+    public function __construct()
+    {
+        $this->cartModel = new Cart();
+
+    }
+
+    public function displayCart() {
           if (session_status() !== PHP_SESSION_ACTIVE) {
               session_start();
           }
@@ -13,16 +22,14 @@ class cartController
   }
           $user_id = $_SESSION['user_id'];
 
-          require_once '../Model/Cart.php';
-          $cartModel = new Cart();
-          $userProducts = $cartModel->getUserCart($user_id);
 
-          $fullUserProducts = $cartModel-> getFull($userProducts);
+          $userProducts = $this->cartModel->getUserCart($user_id);
+
+          $fullUserProducts = $this->cartModel-> getFull($userProducts);
 
           require_once '../Views/cart_form.php';
 
       }
-
 }
 
 

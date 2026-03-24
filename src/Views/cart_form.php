@@ -13,6 +13,7 @@
                         🛒 Корзина
                     </a>
                     <a href="/catalog" class="btn btn-primary mb-3">Вернуться в каталог</a>
+                    <a href="/create-order" class="btn-checkout">Оформить заказ</a>
                 </nav>
             </header>
 
@@ -37,7 +38,11 @@
                         <div class="container">
                             <label for="amount"><b>Amount</b></label>
 
-                            <input type="text" placeholder="Enter Amount" name="amount" id="amount" required>
+                            <input type="text"
+                                   name="amount"
+                                   id="amount"
+                                   value="<?php echo $userProduct['amount']; ?>"
+                                   required>
                             <hr>
                             <button type="submit" class="registerbtn">Add product</button>
                         </div>

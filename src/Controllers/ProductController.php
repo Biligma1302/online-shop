@@ -1,7 +1,14 @@
 <?php
-
+namespace Controllers;
+use Model\Product;
 class productController
 {
+    private Product $productModel;
+    public function __construct()
+    {
+        $this->productModel = new Product();
+
+    }
     public function displayCatalog()
     {
         session_start();
@@ -9,10 +16,9 @@ class productController
             header("Location: /login");
             exit();
         }
-        require_once '../Model/Product.php';
-        $productModel = new Product();
 
-        $products = $productModel->getProducts();
+
+        $products = $this->productModel->getProducts();
 
         require_once '../Views/catalog_page.php';
     }
@@ -34,21 +40,19 @@ class productController
         $errors = $this->addProductValidate($_POST);
 
         if (empty($errors)) {
-            $pdo = new PDO('pgsql:host=postgres_db; port=5432;dbname=dugarovadb', 'dugarova', 'Dugarova1302');
+
             $user_id = $_SESSION['user_id'];
             $product_id = $_POST['product_id'];
             $amount = (int)$_POST['amount'];
 
-            require_once '../Model/Product.php';
-            $productModel = new Product();
 
-            $data = $productModel->getUserProduct($product_id, $user_id);
+            $data = $this->productModel->getUserProduct($product_id, $user_id);
 
             if ($data === false) {
-               $productModel->insertUserProduct($user_id, $product_id, $amount);
+               $this->productModel->insertUserProduct($user_id, $product_id, $amount);
             } else {
                 $amount = $data['amount'] + $amount;
-               $productModel->updateUserProduct($amount, $user_id, $product_id);
+               $this->productModel->updateUserProduct($amount, $user_id, $product_id);
 
             }
         }
@@ -62,10 +66,8 @@ class productController
         if (isset($data['product_id'])) {
             $product_id = (int)$data['product_id'];
 
-            require_once '../Model/Product.php';
-            $productModel = new Product();
 
-           $data = $productModel->getById($product_id);
+           $data = $this->productModel->getById($product_id);
 
             if ($data === false) {
                 $errors['product_id'] = 'Продукт не найден';

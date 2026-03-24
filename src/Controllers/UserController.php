@@ -1,6 +1,18 @@
 <?php
+namespace Controllers;
+use Model\User;
 class UserController
-{  // регистрация
+{
+    private User $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new User();
+
+    }
+
+
+    // регистрация
     public function getRegistrate()
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -21,10 +33,8 @@ class UserController
             $password = $_POST['psw'];
             $passwordRep = $_POST['psw-repeat'];
 
-            require_once '../Model/User.php';
-            $userModel = new User();
 
-            $result = $userModel->getByEmail($email);
+            $result = $this->userModel->getByEmail($email);
             print_r($result);
 
             if ($result) {
@@ -33,7 +43,7 @@ class UserController
 
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Хешируем пароль перед сохранением
 
-             $userModel->insertInto($name, $email, $hashedPassword);
+             $this->userModel->insertInto($name, $email, $hashedPassword);
 
             }
         }
@@ -110,10 +120,8 @@ class UserController
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            require_once '../Model/User.php';
-            $userModel = new User();
 
-           $user = $userModel->getByUsername($username);
+           $user = $this->userModel->getByUsername($username);
 
             if ($user === false) {
                 $errors['username'] = 'Неверное имя пользователя или пароль';
@@ -128,7 +136,7 @@ class UserController
                     $_SESSION['user_email'] = $user['email'];
                     header("Location: /catalog");
                     exit();
-                    #setcookie('user_id', $user['id']);
+
                 } else {
                     $errors['username'] = 'Неверное имя пользователя или пароль';
                 }
@@ -164,10 +172,8 @@ class UserController
         if (isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];
 
-            require_once '../Model/User.php';
-            $userModel = new User();
 
-           $user = $userModel->getByID($user_id);
+           $user = $this->userModel->getByID($user_id);
 
             require_once '../Views/profile.php';
         } else {
@@ -200,17 +206,15 @@ public function getEditProfile()
         $email = $_POST['email'];
         $user_id = $_SESSION['user_id'];
 
-        require_once '../Model/User.php';
-        $userModel = new User();
 
-        $user = $userModel->getbyId($user_id);
+        $user = $this->userModel->getbyId($user_id);
 
         if ($user['name'] !== $name) {
-            $userModel-> updateNameById($name, $user_id);
+            $this->userModel-> updateNameById($name, $user_id);
         }
 
         if ($user['email'] !== $email) {
-           $userModel-> updateEmailById($email, $user_id);
+           $this->userModel-> updateEmailById($email, $user_id);
         }
         header("Location: /profile");
         exit;
@@ -238,9 +242,9 @@ public function getEditProfile()
                 $errors['email'] = "Некорректный email";
             } else {
 
-                require_once '../Model/User.php';
-                $userModel = new User();
-                $user = $userModel->getByEmail($email);
+
+
+                $user = $this->userModel->getByEmail($email);
 
                 $user_id = $_SESSION['user_id'];
                 if ($user['id'] !== $user_id) {

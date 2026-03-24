@@ -130,5 +130,6 @@
     <div class="actions">
         <a href="/catalog">← Назад в каталог</a>
         <a href="/edit-profile" class="edit-link">Изменить профиль</a>
+        <a href="/user-orders" class="edit-link">Мои заказы</a>
     </div>
 </div>
