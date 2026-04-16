@@ -11,7 +11,7 @@ class App
 
     public function run()
     {
-        $requestUri = $_SERVER['REQUEST_URI'];
+        $requestUri = explode('?', $_SERVER['REQUEST_URI'])[0];
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         if (isset($this->routes[$requestUri])) {
@@ -34,9 +34,28 @@ class App
         }
     }
 
-    public function addRoute(string $route, string $routeMethod, string $className, string $method)
-    {
-        $this->routes[$route][$routeMethod] = [
+
+
+    public function get(string $route,string $className, string $method) {
+        $this->routes[$route]['GET'] = [
+            'class' => $className,
+            'method' => $method
+        ];
+    }
+    public function post(string $route,string $className, string $method) {
+        $this->routes[$route]['POST'] = [
+            'class' => $className,
+            'method' => $method
+        ];
+    }
+    public function put(string $route,string $className, string $method) {
+        $this->routes[$route]['PUT'] = [
+            'class' => $className,
+            'method' => $method
+        ];
+    }
+    public function delete(string $route,string $className, string $method) {
+        $this->routes[$route]['DELETE'] = [
             'class' => $className,
             'method' => $method
         ];

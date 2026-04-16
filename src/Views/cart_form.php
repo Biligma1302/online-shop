@@ -1,161 +1,199 @@
-
 <header class="main-header">
     <nav class="nav-container">
-        <a href="" class="nav-link"></a>
+        <div class="nav-left">
+            <a href="/catalog" class="nav-link">← В каталог</a>
+        </div>
+        <div class="nav-right">
+            <a href="../profile" class="nav-link">Профиль</a>
+            <a href="../cart" class="nav-link active">🛒 Корзина</a>
+            <a href="/create-order" class="btn-checkout">Оформить заказ</a>
 
-        <a href="../profile" class="nav-link profile-link">
-
-            <header class="main-header">
-                <nav class="nav-container">
-                    <a href="" class="nav-link"></a>
-                    <a href="../profile" class="nav-link profile-link"></a>
-                    <a href="../cart" class="nav-link profile-link">
-                        🛒 Корзина
-                    </a>
-                    <a href="/catalog" class="btn btn-primary mb-3">Вернуться в каталог</a>
-                    <a href="/create-order" class="btn-checkout">Оформить заказ</a>
-                </nav>
-            </header>
+        </div>
+    </nav>
+</header>
 
 <div class="container">
-    <h3></h3>
-    <div class="card-deck">
-        <?php foreach ($fullUserProducts as $userProduct): ?>
-            <div class="card text-center">
-                <div class="card-header">
-                    Hit!
-                </div>
-                <img class="card-img-top" src=<?php echo $userProduct ['image_url'];?> alt="Card image">
-                <div class="card-body">
-                    <p class="card-text text-muted"><?php echo $userProduct['name'];?></p>
-                    <a href="#"><h5 class="card-title"><?php echo $userProduct['description'];?></h5></a>
+    <h1 class="page-title">Ваша корзина</h1>
 
-                    <p><strong>Price:</strong> <?php echo $userProduct['price']; ?></p>
+    <div class="card-grid">
+        <?php if (empty($fullUserProducts)): ?>
+            <p class="empty-cart">В корзине пока пусто :(</p>
+        <?php else: ?>
+            <?php foreach ($fullUserProducts as $item): ?>
 
-                    <form action="/add-product" method="POST" style="margin-top: 10px;">
-                        <input type="hidden" name="product_id" value="<?php echo $userProduct['id']; ?>">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img class="card-img-top" src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
+                    </div>
 
-                        <div class="container">
-                            <label for="amount"><b>Amount</b></label>
-
-                            <input type="text"
-                                   name="amount"
-                                   id="amount"
-                                   value="<?php echo $userProduct['amount']; ?>"
-                                   required>
-                            <hr>
-                            <button type="submit" class="registerbtn">Add product</button>
+                    <div class="card-body">
+                        <h3 class="card-title"><?= $item['name'] ?></h3>
+                        <div class="card-info">
+                            <span class="info-label">Цена:</span>
+                            <span class="info-value"><?= number_format($item['price'], 0, '.', ' ') ?> ₽</span>
                         </div>
+
+                        <form action="/addProduct" method="POST">
+                            <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
+                            <button type="submit" class="btn-qty-mini">+</button>
+                        </form>
+
+                        <span class="info-value"><?= $item['amount'] ?></span>
+
+                        <form action="/decreaseProduct" method="POST">
+                            <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
+                            <button type="submit" class="btn-qty-mini">-</button>
+                        </form>
+                        <div class="card-info">
+                            <span class="info-label">Количество:</span>
+                            <span class="info-value"><?= $item['amount'] ?> шт.</span>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <span class="total-label">Итого:</span>
+                        <span class="total-price"><?= number_format($item['price'] * $item['amount'], 0, '.', ' ') ?> ₽</span>
+                    </div>
                 </div>
-                <div class="container signin">
-                    <p>Already have an account? <a href="#">Sign in</a>.</p>
-                </div>
-                </form>
-            </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>
 
-        <?php endforeach; ?>
+<style>
+    /* Базовые настройки */
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        color: #333;
+    }
 
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
 
-        <style>
-            body {
-                font-family: 'Roboto', sans-serif; /* Используем красивый шрифт Roboto */
-                font-size: 16px;
-                display: flex;
-                justify-content: center; /* Центрирование по горизонтали */
-            }
+    .page-title {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        color: #1a1a1a;
+    }
 
-            a {
-                text-decoration: none;
-                color: inherit;
-            }
+    /* Хедер */
+    .main-header {
+        background: #fff;
+        padding: 15px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-            a:hover {
-                text-decoration: underline;
-            }
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
 
-            h3 {
-                line-height: 3em;
-                font-size: 1.5em;
-                font-weight: bold;
-            }
+    .nav-link {
+        text-decoration: none;
+        color: #555;
+        margin-left: 20px;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
 
-            /* Карточка товара */
-            .card {
-                max-width: 20rem;
-                /* Убираем фиксированную высоту, оставляем минимально необходимую */
-                min-height: 400px; /* минимальная высота карточки */
-                border-radius: 10px; /* закруглённые углы */
-                box-shadow: 0 4px 8px rgba(0,0,0,.1); /* лёгкая тень */
-                overflow: hidden; /* прячем выступающие части */
-                transition: transform 0.2s ease-in-out; /* плавный эффект увеличения */
-            }
+    .nav-link:hover { color: #007bff; }
+    .nav-link.active { color: #007bff; border-bottom: 2px solid #007bff; }
 
-            .card:hover {
-                transform: scale(1.05); /* легкое увеличение при наведении */
-            }
+    .btn-checkout {
+        background: #28a745;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
 
-            .card-header {
-                font-size: 13px;
-                color: #666;
-                background-color: transparent;
-                padding: 10px;
-            }
+    .btn-checkout:hover { background: #218838; }
 
-            .card-img-top {
-                object-fit: cover; /* сохраняет пропорции изображения */
-                height: 150px; /* фиксированная высота изображения */
-                width: 100%;
-            }
+    /* Сетка и Карточки */
+    .card-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Центрирование товаров */
+        gap: 30px;
+    }
 
-            .card-body {
-                flex-grow: 1;
-                padding: 10px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between; /* равномерное распределение элементов */
-            }
+    .card {
+        background: #fff;
+        width: 280px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
 
-            .card-text.text-muted {
-                font-size: 14px;
-                margin-bottom: 10px;
-            }
+    .card:hover { transform: translateY(-10px); }
 
-            .card-title {
-                font-size: 16px;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
+    .card-img-wrapper {
+        height: 200px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
 
-            .card-footer {
-                font-weight: bold;
-                font-size: 18px;
-                background-color: white;
-                padding: 10px;
-                border-top: 1px solid #ddd;
-            }
+    .card-img-top {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+    }
 
-            /* Добавим немного оформления форме */
-            .form-container {
-                display: block;
-                margin-top: 10px;
-            }
+    .card-body {
+        padding: 20px;
+        flex-grow: 1;
+    }
 
-            .form-group {
-                margin-bottom: 10px;
-            }
+    .card-title {
+        font-size: 1.1rem;
+        margin: 0 0 15px 0;
+        height: 2.4em;
+        overflow: hidden;
+        line-height: 1.2;
+    }
 
-            .registerbtn {
-                background-color: #007BFF;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                cursor: pointer;
-                border-radius: 5px;
-                font-size: 16px;
-                transition: background-color 0.3s ease;
-            }
+    .card-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
 
-            .registerbtn:hover {
-                background-color: #0056b3;
-            }
-        </style>
+    .info-label { color: #888; }
+    .info-value { font-weight: 600; }
+
+    .card-footer {
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .total-label { font-size: 0.8rem; color: #666; }
+    .total-price { font-size: 1.2rem; font-weight: bold; color: #007bff; }
+
+    .empty-cart { font-size: 1.2rem; color: #999; margin-top: 50px; }
+</style>

@@ -2,42 +2,107 @@
 namespace Model;
 class Product extends Model
 {
+    private int $id;
+    private string $name;
+    private string $description;
+    private int $price;
+    private string $image_url;
+
+    protected function getTableName(): string
+    {
+        return 'products';
+    }
+
 
     public function getProducts()
     {
-        $stmt = $this->pdo->query('SELECT * FROM products');
+        $stmt = $this->pdo->query("SELECT * FROM {$this->getTableName()}");
 
         $products = $stmt->fetchAll();
+        $result = [];
+
+        foreach ($products as $product)
+        {
+            $obj = new self();
+
+            $obj->id = $product['id'];
+            $obj->name = $product['name'];
+            $obj->description = $product['description'];
+            $obj->price = $product['price'];
+            $obj->image_url = $product['image_url'];
+
+            $result[] = $obj;
+        }
+        return $result;
+    }
+
+    public function getById(int $product_id): self|null
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->getTableName()} WHERE id = :product_id");
+        $stmt->execute(['product_id' => $product_id]);
+        $product = $stmt->fetch();
+
+        if($product === false) {
+            return null;
+        }
+        $obj = new self;
+        $obj->id = $product['id'];
+        $obj->name = $product['name'];
+        $obj->description = $product['description'];
+        $obj->price = $product['price'];
+        $obj->image_url = $product['image_url'];
+
+        return $obj;
+    }
+    public function getFull($userProducts): array
+    {
+        $products = [];
+
+        foreach ($userProducts as $userProduct) {
+
+            $product = $this->getById($userProduct->getProductId());
+
+            if ($product === null) {
+                continue;
+            }
+            $products[] = [
+                'amount'    => $userProduct->getAmount(),
+                'name'      => $product->getName(),
+                'price'     => $product->getPrice(),
+                'image'     => $product->getImageUrl(),
+                'productId' => $product->getId(),
+            ];
+        }
+
         return $products;
     }
 
-    public function getUserProduct(int $product_id, int $user_id)
+    public function getId(): int
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM user_products WHERE product_id = :product_id AND user_id = :user_id");
-        $stmt->execute(['product_id' => $product_id, 'user_id' => $user_id]);
-        $data = $stmt->fetch();
-        return $data;
-
+        return $this->id;
     }
 
-    public function insertUserProduct(int $user_id, int $product_id, int $amount)
+    public function getName(): string
     {
-        $stmt = $this->pdo->prepare("INSERT INTO user_products (user_id, product_id, amount) VALUES (:user_id, :product_id, :amount)");
-        $stmt->execute(['user_id' => $user_id, 'product_id' => $product_id, 'amount' => $amount]);
+        return $this->name;
     }
 
-    public function updateUserProduct(int $amount, int $user_id, int $product_id)
+    public function getDescription(): string
     {
-        $stmt = $this->pdo->prepare("UPDATE user_products SET amount = :amount WHERE user_id = :user_id and product_id = :product_id");
-        $stmt->execute(['amount' => $amount, 'user_id' => $user_id, 'product_id' => $product_id]);
+        return $this->description;
     }
 
-    public function getById(int $product_id): array
+    public function getPrice(): int
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :product_id");
-        $stmt->execute(['product_id' => $product_id]);
-        $data = $stmt->fetch();
-        return $data;
+        return $this->price;
     }
+
+    public function getImageUrl(): string
+    {
+        return $this->image_url;
+    }
+
+
+
 
 }

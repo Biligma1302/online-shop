@@ -110,19 +110,17 @@
         <tr>
             <td class="label">Имя:</td>
             <td class="value">
-                <?= htmlspecialchars($user['name'] ?? 'Не указано') ?>
+                <?= htmlspecialchars($user->getName() ?? 'Не указано') ?>
             </td>
         </tr>
         <tr>
             <td class="label">Email:</td>
             <td class="value">
-                <?= htmlspecialchars($user['email'] ?? 'Не указано') ?>
+                <?= htmlspecialchars($user->getEmail() ?? 'Не указано') ?>
             </td>
         </tr>
         <tr>
-            <td class="label">Страна:</td>
-            <td class="value">
-                <?= htmlspecialchars($user['country'] ?? 'Россия') ?>
+
             </td>
         </tr>
     </table>
@@ -131,5 +129,6 @@
         <a href="/catalog">← Назад в каталог</a>
         <a href="/edit-profile" class="edit-link">Изменить профиль</a>
         <a href="/user-orders" class="edit-link">Мои заказы</a>
+        <a href="/logout" class="btn-logout" style="color: red; margin-left: 15px;">Выйти</a>
     </div>
 </div>

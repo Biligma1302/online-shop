@@ -18,17 +18,17 @@
                     <p><b>Адрес:</b> <?php echo $order['address']; ?></p>
 
                     <?php if (!empty($order['comment'])): ?>
-                        <p><b>Комментарий:</b> <?php echo $order['comment']; ?></p>
+                        <p><b>Комментарий:</b> <?php echo $order->getComment(); ?></p>
                     <?php endif; ?>
 
                     <p><b>Товары:</b></p>
                     <ul>
-                        <?php foreach ($order['products'] as $amount): ?>
+                        <?php foreach ($order['products'] as $product): ?>
                             <li>
-
-                                <?php echo $amount['name']; ?> —
-                                <?php echo $amount['amount']; ?> шт.
-                                (по <?php echo $amount['price']; ?> руб.)
+                                <!-- Используем квадратные скобки, так как это массив из контроллера -->
+                                <?php echo $product['name']; ?> —
+                                <?php echo $product['amount']; ?> шт.
+                                (по <?php echo $product['price']; ?> руб.)
                             </li>
                         <?php endforeach; ?>
                     </ul>

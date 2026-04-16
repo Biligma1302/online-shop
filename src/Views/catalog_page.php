@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог товаров</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,10 +13,10 @@
 <header class="main-header">
     <nav class="nav-container">
 
-        <a href="../profile" class="nav-link profile-link">
-            🏠 👤 Личный кабинет (<?= htmlspecialchars($_SESSION['user_name']) ?>)
+        <a href="/profile" class="nav-link profile-link">
+            🏠 👤 Личный кабинет (<?= htmlspecialchars($_SESSION['user_name'] ?? 'Гость') ?>)
         </a>
-        <a href="../cart" class="nav-link profile-link">
+        <a href="/cart" class="nav-link profile-link">
             🛒 Корзина
         </a>
     </nav>
@@ -25,37 +26,51 @@
     <h3>Catalog</h3>
     <div class="card-deck">
         <?php foreach ($products as $product): ?>
+            <?php $productId = $product->getId(); ?>
             <div class="card text-center">
-                <div class="card-header">
-                    Hit!
-                </div>
-                <img class="card-img-top" src="<?php echo $product['image_url']; ?>" alt="Card image">
+                <div class="card-header">Hit!</div>
+
+                <img class="card-img-top" src="<?= htmlspecialchars($product->getImageUrl()); ?>" alt="<?= htmlspecialchars($product->getName()); ?>">
+
                 <div class="card-body">
-                    <p class="card-text text-muted"><?php echo $product['name']; ?></p>
-                    <a href="#"><h5 class="card-title"><?php echo $product['description']; ?></h5></a>
-                    <form action="/add-product" method="POST" style="margin-top: 10px;">
-                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                        <div class="container">
-                            <label for="amount"><b>Amount</b></label>
-                            <input type="text" placeholder="Enter Amount" name="amount" id="amount" required>
-                            <hr>
-                            <button type="submit" class="registerbtn">Add product</button>
-                        </div>
-                    </form>
+                    <p class="card-text text-muted"><?= htmlspecialchars($product->getName()); ?></p>
+                    <h5 class="card-title"><?= htmlspecialchars($product->getDescription()); ?></h5>
+
+                    <div class="controls-wrapper">
+                        <form action="/add-product" method="POST" style="display:inline;">
+                            <input type="hidden" name="product_id" value="<?= $productId; ?>">
+                            <button type="submit" class="registerbtn">+</button>
+                        </form>
+
+                        <span class="amount-badge">
+                            <?= isset($user_products[$productId]) ? (int)$user_products[$productId]->getAmount() : 0; ?>
+                        </span>
+
+                        <form action="/decrease-product" method="POST" style="display:inline;">
+                            <input type="hidden" name="product_id" value="<?= $productId; ?>">
+                            <button type="submit" class="registerbtn">-</button>
+                        </form>
+                    </div>
+
+
+                    <div style="margin-top: 15px;">
+                        <a href="/reviews?product_id=<?= $productId; ?>" class="btn-open" style="display: block; text-decoration: none; text-align: center; width: 100%;">
+                            Открыть отзывы
+                        </a>
+                    </div>
                 </div>
-                <div class="container signin">
+
+                <div class="card-footer signin">
                     <p>Already have an account? <a href="#">Sign in</a>.</p>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 </div>
-
 </body>
 </html>
-
 <style>
-    /* style.css */
+
     body {
         font-family: 'Roboto', sans-serif;
         font-size: 16px;

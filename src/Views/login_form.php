@@ -18,6 +18,7 @@
         <input type="password" id="password" name="password" placeholder="Password" required>
 
         <button type="submit">Войти</button>
+        <a href="/registration" class="btn-register">Зарегистрироваться</a>
     </form>
 </div>
 
@@ -76,6 +77,25 @@
     }
     button:hover {
         background-color: #45a049;
+    }
+    .btn-register {
+        display: inline-block;
+        width: 100%; /* Растягиваем на всю ширину */
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #f0f0f0; /* Светлый фон для контраста с основной кнопкой */
+        color: #333;
+        text-align: center;
+        text-decoration: none; /* Убираем подчеркивание ссылки */
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-register:hover {
+        background-color: #e2e2e2; /* Эффект при наведении */
     }
 </style>
 </body>

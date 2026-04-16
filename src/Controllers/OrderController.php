@@ -3,27 +3,28 @@
 namespace Controllers;
 
 use Model\Order;
-use Model\Cart;
+use Model\UserProduct;
 use Model\OrderProduct;
 use Model\Product;
+use Service\OrderService;
 
 
-
-class OrderController
-{
+class OrderController extends Controller
+ {
     private Order $orderModel;
-    private Cart $cartModel;
+
     private OrderProduct $orderProductModel;
     private Product $productModel;
-
+    private OrderService $orderService;
 
 
     public function __construct()
     {
+        parent::__construct();
         $this->orderModel = new Order();
-        $this->cartModel = new Cart();
         $this->orderProductModel = new OrderProduct();
         $this->productModel = new Product();
+        $this->orderService = new OrderService();
 
     }
 
@@ -34,10 +35,7 @@ class OrderController
 
     public function handleCheckout()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        if (!isset($_SESSION['user_id'])) {
+        if (!$this->authService->check())  {
             header("Location:/Login");
             exit();
         }
@@ -52,18 +50,7 @@ class OrderController
             $user_id = $_SESSION['user_id'];
 
 
-            $orderId = $this->orderModel->create($contactName, $contactPhone, $comment, $address, $user_id);
-
-            $userProducts = $this->cartModel->getUserCart($user_id);
-
-            foreach ($userProducts as $userProduct) {
-                $productId = $userProduct['product_id'];
-                $amount = $userProduct['amount'];
-
-                $this->orderProductModel->create($orderId, $productId, $amount);
-            }
-
-            $this->cartModel->deleteByUserId($user_id);
+           $this->orderService->processCheckout($contactName, $contactPhone, $comment, $address, $user_id);
 
             header("Location: /order-success");
             exit();
@@ -117,48 +104,18 @@ class OrderController
 
     public function getAllOrders()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        if (!isset($_SESSION['user_id'])) {
+        if (!$this->authService->check())
+        {
             header("Location:/Login");
             exit();
         }
-        $user_id = $_SESSION['user_id'];
+        $user = $this->authService->getCurrentUser(); ;
 
-        $userOrders = $this->orderModel->getAllByUserId($user_id);
+        $newUserOrders = $this->orderService->getUserOrdersHistory($user->getId());
 
-        $newUserOrders = [];
-
-        foreach ($userOrders as $userOrder) {
-
-            $orderProducts = $this->orderProductModel->getAllByOrderId($userOrder['id']);
-
-            $newOrderProducts = [];
-            $sum = 0;
-
-            foreach ($orderProducts as $orderProduct) {
-
-                $product = $this->productModel->getById($orderProduct['product_id']);
-                $orderProduct['name'] = $product['name'];
-                $orderProduct['price'] = $product['price'];
-                $orderProduct['totalSum'] = $orderProduct['amount'] * $orderProduct['price'];
-
-                $newOrderProducts[] = $orderProduct;
-
-                $sum = $sum + $orderProduct['totalSum'];
-            }
-
-            $userOrder['total'] = $sum;
-
-            $userOrder['products'] = $newOrderProducts;
-
-            $newUserOrders[] = $userOrder;
-        }
         require_once './../Views/My_orders_form.php';
     }
-}
-
+ }
 
 
 

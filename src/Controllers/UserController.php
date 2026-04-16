@@ -1,12 +1,13 @@
 <?php
 namespace Controllers;
 use Model\User;
-class UserController
+class UserController extends Controller
 {
-    private User $userModel;
+    protected User $userModel;
 
     public function __construct()
     {
+        parent::__construct();
         $this->userModel = new User();
 
     }
@@ -15,10 +16,7 @@ class UserController
     // регистрация
     public function getRegistrate()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        if (isset($_SESSION['user_id'])) {
+        if ($this->authService->check()) {
             header ("Location: /catalog");
         }
         require_once '../Views/registration_form.php';
@@ -33,9 +31,7 @@ class UserController
             $password = $_POST['psw'];
             $passwordRep = $_POST['psw-repeat'];
 
-
             $result = $this->userModel->getByEmail($email);
-            print_r($result);
 
             if ($result) {
                 echo "Email уже занят";
@@ -47,7 +43,7 @@ class UserController
 
             }
         }
-        require_once '../Views/registration_form.php';
+        require_once '../Views/login_form.php';
     }
 
    private function validate(array $data): array
@@ -97,51 +93,32 @@ class UserController
 
     public function getLogin()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        $this->authService->check();
 
         if (isset($_SESSION['logged_in'])) {
             header("Location: /catalog");
             exit();
+        } else {
+            require_once '../Views/login_form.php';
         }
-        require_once '../Views/login_form.php';
     }
 
     public function login()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-
         $errors = $this->validateLogin($_POST);
 
         if (empty($errors)) {
             $username = $_POST['username'];
             $password = $_POST['password'];
+            $result = $this->authService->auth($username, $password);
+            if ($result) {
+                header("Location: /catalog");
+                exit();
 
-
-           $user = $this->userModel->getByUsername($username);
-
-            if ($user === false) {
-                $errors['username'] = 'Неверное имя пользователя или пароль';
             } else {
-                $passwordDb = $user['password'];
-
-                if (password_verify($password, $passwordDb)) {
-
-                    $_SESSION['logged_in'] = true;
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_name'] = $user['name'];
-                    $_SESSION['user_email'] = $user['email'];
-                    header("Location: /catalog");
-                    exit();
-
-                } else {
-                    $errors['username'] = 'Неверное имя пользователя или пароль';
+                $errors['username'] = 'Неверное имя пользователя или пароль';
                 }
             }
-        }
         require_once '../Views/login_form.php';
 
     }
@@ -166,14 +143,11 @@ class UserController
     }
     public function displayProfile()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        if (isset($_SESSION['user_id'])) {
-            $user_id = $_SESSION['user_id'];
 
+        if ($this->authService->check()) {
+            $user = $this->authService->getCurrentUser();
 
-           $user = $this->userModel->getByID($user_id);
+           $user = $this->userModel->getByID($user->getId());
 
             require_once '../Views/profile.php';
         } else {
@@ -191,11 +165,7 @@ public function getEditProfile()
 
     public function editProfile()
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-    if (!isset($_SESSION['user_id'])) {
+    if (!$this->authService->check()) {
         header( "Location: /login");
         exit;
     }
@@ -204,17 +174,17 @@ public function getEditProfile()
     if (empty($errors)) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $user_id = $_SESSION['user_id'];
+        $user = $this->authService->getCurrentUser();;
 
 
-        $user = $this->userModel->getbyId($user_id);
+        $user = $this->userModel->getbyId($user->getid());
 
         if ($user['name'] !== $name) {
-            $this->userModel-> updateNameById($name, $user_id);
+            $this->userModel-> updateNameById($name, $user->getId());
         }
 
         if ($user['email'] !== $email) {
-           $this->userModel-> updateEmailById($email, $user_id);
+           $this->userModel-> updateEmailById($email, $user->getId());
         }
         header("Location: /profile");
         exit;
@@ -246,12 +216,17 @@ public function getEditProfile()
 
                 $user = $this->userModel->getByEmail($email);
 
-                $user_id = $_SESSION['user_id'];
-                if ($user['id'] !== $user_id) {
+                $user = $this->authService->getCurrentUser();;
+                if ($user->getId() !== $user) {
                     $errors['email'] = "Этот email уже зарегистрирован";
                 }
             }
         }
         return $errors;
+    }
+    public function logout() {
+       $this->authService->logout();
+        header("Location: /login");
+        exit();
     }
 }
