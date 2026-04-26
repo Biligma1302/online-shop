@@ -1,15 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $pdo = new PDO('pgsql:host=postgres_db; port=5432;dbname=dugarovadb', 'dugarova', 'Dugarova1302');
-    $stmt = $pdo->query("SELECT * FROM users WHERE id = $user_id");
-    $user = $stmt->fetch();
-} else {
-    header("Location: /login");
-    exit();
-}
-?>
 
 <div class="main-container">
     <form action="/edit-profile" method="POST" class="form-example">
@@ -22,7 +10,7 @@ if (isset($_SESSION['user_id'])) {
                 <label class="error-msg"><?php echo $errors['name']; ?></label>
             <?php endif; ?>
 
-            <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($user['name']); ?>" />
+            <input type="text" name="name" id="name" value="<?php echo ($user->getName()); ?>" />
         </div>
 
         <div class="form-group">
@@ -31,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
                 <label class="error-msg"><?php echo $errors['email']; ?></label>
             <?php endif; ?>
 
-            <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($user['email']); ?>" />
+            <input type="email" name="email" id="email" value="<?php echo ($user->getEmail()); ?>" />
         </div>
 
         <button type="submit" class="registerbtn">Сохранить изменения</button>

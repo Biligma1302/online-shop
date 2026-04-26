@@ -2,31 +2,27 @@
 
 namespace Controllers;
 
-use Model\UserProduct;
-use Model\Product;
 use Service\CartService;
+use DTO\AddProductDTO;
+use DTO\DecreaseProductDTO;
+use Request\ProductIdRequest;
+
 
 class CartController extends Controller
  {
-    private UserProduct $userProductModel;
-    private Product $productModel;
-
     private CartService $cartService;
 
     public function __construct()
     {
         parent::__construct();
-        $this->userProductModel = new UserProduct();
-        $this->productModel = new Product();
+
         $this->cartService = new CartService();
     }
 
-    public function displayCart(): void
+    public function getCart(): void
     {
         if ($this->authService->check()) {
-            $user = $this->authService->getCurrentUser();
-            $userProducts = $this->userProductModel->getAllUserProductsByUserId($user->getId());
-            $fullUserProducts = $this->productModel->getFull($userProducts);
+            $userProducts = $this->cartService->getUserProducts();
             require_once '../Views/cart_form.php';
         } else {
             header("Location: /login");
@@ -34,33 +30,32 @@ class CartController extends Controller
         }
     }
 
-    public function addProductToCart()
+    public function addProductToCart(ProductIdRequest $request)
     {
         if (!$this->authService->check()) {
             header("Location: /login");
             exit();
         }
-        $user = $this->authService->getCurrentUser();
-        $product_id = $_POST['product_id'];
 
         $amount = 1;
 
-       $this->cartService->addProduct($product_id, $user->getId(), $_POST['amount']);
+        $dto = new AddProductDTO($request->getProductId(), $amount);
+
+       $this->cartService->addProduct($dto);
         header("Location: /cart");
         exit();
     }
-    public function decreaseProductFromCart()
+
+    public function decreaseProductFromCart(ProductIdRequest $request)
     {
        if (!$this->authService->check()) {
             header("Location: /login");
             exit();
         }
 
-        $user = $this->authService->getCurrentUser();
+        $dto = new DecreaseProductDTO($request->getProductId());
 
-        $product_id = $_POST['product_id'];
-
-        $this->cartService->decreaseProduct($product_id, $user->getId());
+        $this->cartService->decreaseProduct($dto);
 
         header("Location: /cart");
         exit();

@@ -33,13 +33,13 @@ class User extends Model
     public function updateEmailById(string $email, int $user_id)
     {
 
-        $stmt = $this->pdo->prepare("UPDATE {$this->getTableName()} ( SET email = :email WHERE id = $user_id");
+        $stmt = $this->pdo->prepare("UPDATE {$this->getTableName()}  SET email = :email WHERE id = $user_id");
         $stmt->execute([':email' => $email]);
     }
 
     public function updateNameById(string $name, int $user_id)
     {
-        $stmt = $this->pdo->prepare("UPDATE {$this->getTableName()} ( SET name = :name WHERE id = $user_id");
+        $stmt = $this->pdo->prepare("UPDATE {$this->getTableName()}  SET name = :name WHERE id = $user_id");
         $stmt->execute([':name' => $name]);
     }
 

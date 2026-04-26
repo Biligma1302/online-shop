@@ -1,95 +1,50 @@
 <?php
 namespace Controllers;
+use DTO\AuthDTO;
+use DTO\RegisterUserDTO;
+use DTO\UpdateProfileDTO;
 use Model\User;
+use Request\EditProfileRequest;
+use Request\LoginRequest;
+use Request\RegistrationRequest;
+use Service\UserService;
+
 class UserController extends Controller
 {
     protected User $userModel;
+    private UserService $userService;
 
     public function __construct()
     {
         parent::__construct();
         $this->userModel = new User();
-
+        $this->userService = new UserService();
     }
 
 
-    // регистрация
-    public function getRegistrate()
+    public function getRegistrateForm()
     {
         if ($this->authService->check()) {
             header ("Location: /catalog");
         }
         require_once '../Views/registration_form.php';
     }
-    public function registrate()
+    public function registrate(RegistrationRequest $request)
     {
-        $errors = $this->validate($_POST);
+        $errors = $request->validate();
 
         if (empty($errors)) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $password = $_POST['psw'];
-            $passwordRep = $_POST['psw-repeat'];
 
-            $result = $this->userModel->getByEmail($email);
+            $dto = new RegisterUserDTO(
+                $request->getName(),
+                $request->getEmail(),
+                $request->getPsw());
 
-            if ($result) {
-                echo "Email уже занят";
-            } else {
-
-                $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Хешируем пароль перед сохранением
-
-             $this->userModel->insertInto($name, $email, $hashedPassword);
-
-            }
+          $this->userService->registerUser($dto);
         }
         require_once '../Views/login_form.php';
     }
 
-   private function validate(array $data): array
-    {
-        $errors = [];
-
-        if (isset($data ['name'])) {
-            $name = $data['name'];
-
-            if (strlen($name) < 5) {
-                $errors['name'] = 'Имя должно содержать минимум 5 символов';
-            }
-        } else {
-            $errors['name'] = 'Имя должно быть заполнено';
-        }
-
-        if (isset($data['email'])) {
-            $email = $data['email'];
-
-            if (strlen($email) < 5) {
-                $errors['email'] = 'email указан некорректно';
-            }
-            if (strpos($email, '@') === false) {
-                $errors['email'] = 'email должен иметь символ @';
-            }
-        } else {
-            $errors['email'] = 'email должен быть заполнен';
-        }
-
-        if (isset($data['psw'])) {
-            $password = $data['psw'];
-
-            if (strlen($password) < 5) {
-                $errors['psw'] = 'Пароль должен содержать минимум 6 символов';
-            }
-
-            if ($password !== ($data['psw-repeat'])) {
-                $errors['psw-repeat'] = 'Пароли не совпадают';
-            }
-        } else {
-            $errors['psw'] = 'пароль должен быть заполнен';
-        }
-        return $errors;
-    }
-
-    // логин
 
     public function getLogin()
     {
@@ -103,14 +58,14 @@ class UserController extends Controller
         }
     }
 
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $errors = $this->validateLogin($_POST);
+        $errors = $request->validate();
 
         if (empty($errors)) {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $result = $this->authService->auth($username, $password);
+
+            $dto = new AuthDTO($request->getUsername(), $request->getPassword());
+            $result = $this->authService->auth($dto);
             if ($result) {
                 header("Location: /catalog");
                 exit();
@@ -120,22 +75,8 @@ class UserController extends Controller
                 }
             }
         require_once '../Views/login_form.php';
-
-    }
-    function validateLogin(array $data): array
-    {
-        $errors = [];
-
-        if (!isset($data['username'])) {
-            $errors['username'] = 'Поле Username обязательно для заполнения!';
-        }
-        if (!isset($data['password'])) {
-            $errors['password'] = 'Поле Password обязательно для заполнения!';
-        }
-        return $errors;
     }
 
-    //выдача профиля
 
     public function getDisplayProfile()
     {
@@ -157,76 +98,47 @@ class UserController extends Controller
     }
 
 
-//редактирование профиля
 public function getEditProfile()
+
 {
+    $user = $this->authService->getCurrentUser();
     require_once '../Views/edit_profile_form.php';
 }
 
-    public function editProfile()
+    public function editProfile(EditProfileRequest $request)
 {
     if (!$this->authService->check()) {
         header( "Location: /login");
         exit;
     }
-    $errors = $this->editProfileValidate($_POST);
+    $errors = $request->validate();
+    if (empty($errors)) {
+
+        $userByEmail = $this->userModel->getByEmail($request->getEmail());
+
+        $user = $this->authService->getCurrentUser();
+        if ($userByEmail != null && $userByEmail->getId() !== $user->getId()) {
+            $errors['email'] = "Этот email уже зарегистрирован";
+    }
 
     if (empty($errors)) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $user = $this->authService->getCurrentUser();;
 
+        $dto = new UpdateProfileDTO($user, $request->getName(), $request->getEmail());
 
-        $user = $this->userModel->getbyId($user->getid());
+      $this->userService->updateProfile($dto);
 
-        if ($user['name'] !== $name) {
-            $this->userModel-> updateNameById($name, $user->getId());
-        }
-
-        if ($user['email'] !== $email) {
-           $this->userModel-> updateEmailById($email, $user->getId());
-        }
         header("Location: /profile");
         exit;
     }
-
     require_once '../Views/edit_profile_form.php';
 }
+}
 
-    function editProfileValidate(array $data): array
-    {
-        $errors = [];
-
-        if (isset($data['name'])) {
-            $name = $data['name'];
-            if (strlen($name) < 5) {
-                $errors['name'] = 'Имя не может содержать меньше 5 символов';
-            }
-        }
-
-        if (isset($data['email'])) {
-            $email = $data['email'];
-            if (strlen($email) < 5) {
-                $errors['email'] = "Email не может содержать меньше 5 сиволов";
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = "Некорректный email";
-            } else {
-
-
-
-                $user = $this->userModel->getByEmail($email);
-
-                $user = $this->authService->getCurrentUser();;
-                if ($user->getId() !== $user) {
-                    $errors['email'] = "Этот email уже зарегистрирован";
-                }
-            }
-        }
-        return $errors;
-    }
     public function logout() {
        $this->authService->logout();
         header("Location: /login");
         exit();
     }
 }
+
+

@@ -6,6 +6,8 @@ use Model\Order;
 use Model\OrderProduct;
 use Model\UserProduct;
 use Model\Product;
+use DTO\OrderCreateDTO;
+
 
 class OrderService
 {
@@ -14,6 +16,7 @@ class OrderService
 
     private OrderProduct $orderProductModel;
     private Product $productModel;
+    private AuthService $authService;
 
 
     public function __construct()
@@ -22,15 +25,23 @@ class OrderService
         $this->userProductModel = new UserProduct();
         $this->orderProductModel = new OrderProduct();
         $this->productModel = new Product();
+        $this->authService = new AuthService();
 
     }
 
-    public function processCheckout($contactName, $contactPhone, $comment, $address, $user_id)
+    public function processCheckout(OrderCreateDTO $data)
     {
+        $user = $this->authService->getCurrentUser();
+        $orderId = $this->orderModel->create
+        (
+            $data->getContactName(),
+            $data->getContactPhone(),
+            $data->getComment(),
+            $data->getAddress(),
+            $user->getId()
+        );
 
-        $orderId = $this->orderModel->create($contactName, $contactPhone, $comment, $address, $user_id);
-
-        $userProducts = $this->userProductModel->getAllUserProductsByUserId($user_id);
+        $userProducts = $this->userProductModel->getAllUserProductsByUserId($user->getId());
 
         foreach ($userProducts as $userProduct) {
             $productId = $userProduct->getProductId();
@@ -39,13 +50,14 @@ class OrderService
             $this->orderProductModel->create($orderId, $productId, $amount);
         }
 
-        $this->userProductModel->deleteByUserId($user_id);
+        $this->userProductModel->deleteByUserId($user->getId());
     }
 
-    public function getUserOrdersHistory(int $user_id)
+    public function getUserOrdersHistory():array
     {
+        $user = $this->authService->getCurrentUser();
 
-        $userOrders = $this->orderModel->getAllByUserId($user_id);
+        $userOrders = $this->orderModel->getAllByUserId($user->getId());
         $newUserOrders = [];
 
         foreach ($userOrders as $userOrder) {

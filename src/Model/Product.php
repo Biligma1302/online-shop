@@ -101,8 +101,4 @@ class Product extends Model
     {
         return $this->image_url;
     }
-
-
-
-
 }

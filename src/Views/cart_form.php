@@ -16,10 +16,10 @@
     <h1 class="page-title">Ваша корзина</h1>
 
     <div class="card-grid">
-        <?php if (empty($fullUserProducts)): ?>
+        <?php if (empty($userProducts)): ?>
             <p class="empty-cart">В корзине пока пусто :(</p>
         <?php else: ?>
-            <?php foreach ($fullUserProducts as $item): ?>
+            <?php foreach ($userProducts as $item): ?>
 
                 <div class="card">
                     <div class="card-img-wrapper">

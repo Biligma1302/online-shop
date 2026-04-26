@@ -106,6 +106,10 @@ class UserProduct extends Model
     {
         return $this->amount;
     }
+
+    public function getUser()
+    {
+    }
 }
 
 

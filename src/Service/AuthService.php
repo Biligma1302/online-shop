@@ -2,6 +2,7 @@
 
 namespace Service;
 
+use DTO\AuthDTO;
 use Model\User;
 
 class AuthService
@@ -31,18 +32,18 @@ class AuthService
         }
     }
 
-    public function auth(string $username, string $password):bool
+    public function auth(AuthDTO $dto):bool
     {
         $this->startSession();
 
-        $user = $this->userModel->getByUsername($username);
+        $user = $this->userModel->getByUsername($dto->getUsername());
 
         if ($user === false) {
             return false;
         } else {
             $passwordDb = $user->getPassword();
 
-            if (password_verify($password, $passwordDb)) {
+            if (password_verify($dto->getPassword(), $passwordDb)) {
 
                 $_SESSION['logged_in'] = true;
                 $_SESSION['user_id'] = $user->getId();
