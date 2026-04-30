@@ -16,9 +16,8 @@
         <a href="/profile" class="nav-link profile-link">
             🏠 👤 Личный кабинет (<?= htmlspecialchars($_SESSION['user_name'] ?? 'Гость') ?>)
         </a>
-        <a href="/cart" class="nav-link profile-link">
-            🛒 Корзина
         </a>
+        <a href="../cart" class="nav-link">🛒 Корзина (<?= number_format($totalSum ?? 0, 0, '.', ' ') ?> ₽)</a>
     </nav>
 </header>
 

@@ -23,6 +23,7 @@ class CartController extends Controller
     {
         if ($this->authService->check()) {
             $userProducts = $this->cartService->getUserProducts();
+            $totalSum = $this->cartService->getSum();
             require_once '../Views/cart_form.php';
         } else {
             header("Location: /login");

@@ -5,9 +5,7 @@
         </div>
         <div class="nav-right">
             <a href="../profile" class="nav-link">Профиль</a>
-            <a href="../cart" class="nav-link active">🛒 Корзина</a>
             <a href="/create-order" class="btn-checkout">Оформить заказ</a>
-
         </div>
     </nav>
 </header>
@@ -20,7 +18,6 @@
             <p class="empty-cart">В корзине пока пусто :(</p>
         <?php else: ?>
             <?php foreach ($userProducts as $item): ?>
-
                 <div class="card">
                     <div class="card-img-wrapper">
                         <img class="card-img-top" src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
@@ -33,31 +30,36 @@
                             <span class="info-value"><?= number_format($item['price'], 0, '.', ' ') ?> ₽</span>
                         </div>
 
-                        <form action="/addProduct" method="POST">
-                            <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
-                            <button type="submit" class="btn-qty-mini">+</button>
-                        </form>
+                        <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                            <form action="/decreaseProduct" method="POST" style="margin: 0;">
+                                <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
+                                <button type="submit" class="btn-qty-mini">-</button>
+                            </form>
 
-                        <span class="info-value"><?= $item['amount'] ?></span>
-
-                        <form action="/decreaseProduct" method="POST">
-                            <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
-                            <button type="submit" class="btn-qty-mini">-</button>
-                        </form>
-                        <div class="card-info">
-                            <span class="info-label">Количество:</span>
                             <span class="info-value"><?= $item['amount'] ?> шт.</span>
+
+                            <form action="/addProduct" method="POST" style="margin: 0;">
+                                <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
+                                <button type="submit" class="btn-qty-mini">+</button>
+                            </form>
                         </div>
                     </div>
 
                     <div class="card-footer">
-                        <span class="total-label">Итого:</span>
-                        <span class="total-price"><?= number_format($item['price'] * $item['amount'], 0, '.', ' ') ?> ₽</span>
+                        <span class="total-label">Сумма:</span>
+                        <span class="total-price"><?= $item['price'] * $item['amount'], 0, '.', ' ' ?> ₽</span>
                     </div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
+
+    <?php if (!empty($userProducts)): ?>
+        <div class="cart-total-footer" style="margin-top: 40px; padding: 20px; border-top: 2px solid #eee; text-align: right;">
+            <div style="font-size: 1.2rem; color: #666; margin-bottom: 5px;">Общая стоимость:</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #333;"><?= number_format($totalSum, 0, '.', ' ') ?> ₽</div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <style>

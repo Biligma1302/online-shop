@@ -2,29 +2,35 @@
 
 namespace Service;
 
-use DTO\DecreaseProductDTO;
-use Model\UserProduct;
 use DTO\AddProductDTO;
+use DTO\DecreaseProductDTO;
 use Model\Product;
+use Model\UserProduct;
+use Service\Auth\AuthInterface;
+use Service\Auth\AuthSessionService;
 
 class CartService
 {
     private UserProduct $userProductModel;
     private Product $productModel;
-    private AuthService $authService;
+    private AuthInterface $authService;
 
 
     public function __construct()
     {
         $this->userProductModel = new UserProduct();
         $this->productModel = new Product();
-        $this->authService = new AuthService();
+        $this->authService = new AuthSessionService();
     }
 
 
     public function getUserProducts(): array
     {
         $user = $this->authService->getCurrentUser();
+        if($user===null)
+        {
+            return[];
+        }
         $userProducts = $this->userProductModel->getAllUserProductsByUserId($user->getId());
 
         $products = [];
@@ -86,6 +92,15 @@ class CartService
                 $this->userProductModel->deleteUserProducts($user->getId(), $dto->getProductId());
             }
         }
+    }
+
+    public function getSum(): int
+    {
+        $total = 0;
+        foreach ($this->getUserProducts() as $userProduct ) {
+            $total += $userProduct['price'] * $userProduct['amount'];
+        }
+        return $total;
     }
 }
 

@@ -1,10 +1,10 @@
 <?php
 namespace Core;
 
-use Controllers\UserController;
-use Controllers\ProductController;
-use Controllers\CartController;
-use Controllers\OrderController;
+use Service\Logger\LoggerServiceFile;
+use Service\Logger\LoggerServiceBd;
+
+
 class App
 {
     private array $routes = [];
@@ -26,11 +26,19 @@ class App
 
                 $requestClass = $handler['request'];
 
-                if ($requestClass !== null) {
-                    $request = new $requestClass($_POST);
-                    $controller->$method($request);
-                }else{
-                    $controller->$method();
+                $logger = LoggerServiceBd::class;
+
+                try {
+                    if ($requestClass !== null) {
+                        $request = new $requestClass($_POST);
+                        $controller->$method($request);
+                    } else {
+                        $controller->$method();
+                    }
+                } catch (\Throwable $exception) {
+                    $logger::error($exception);
+
+                    require_once '../Views/500.php';
                 }
 
             } else {

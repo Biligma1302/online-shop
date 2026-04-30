@@ -35,6 +35,7 @@ class ProductController extends Controller
         $products = $this->productModel->getProducts();
 
         $user_products = $this->userProductModel->getAmountCartItems($user->getId());
+        $totalSum = $this->cartService->getSum();
 
         require_once '../Views/catalog_page.php';
     }

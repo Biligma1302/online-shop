@@ -1,11 +1,11 @@
 <?php
 
-namespace Service;
+namespace Service\Auth;
 
 use DTO\AuthDTO;
 use Model\User;
 
-class AuthService
+class AuthSessionService implements AuthInterface
 {
     protected User $userModel;
 
@@ -56,7 +56,9 @@ class AuthService
             }
         }
     }
-    public function logout() {
+
+    public function logout(): void
+    {
         $this->startSession();
         session_destroy();
     }

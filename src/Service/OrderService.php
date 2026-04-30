@@ -2,11 +2,13 @@
 
 namespace Service;
 
+use DTO\OrderCreateDTO;
 use Model\Order;
 use Model\OrderProduct;
-use Model\UserProduct;
 use Model\Product;
-use DTO\OrderCreateDTO;
+use Model\UserProduct;
+use Service\Auth\AuthInterface;
+use Service\Auth\AuthSessionService;
 
 
 class OrderService
@@ -16,7 +18,8 @@ class OrderService
 
     private OrderProduct $orderProductModel;
     private Product $productModel;
-    private AuthService $authService;
+    private AuthInterface $authService;
+    private cartService $cartService;
 
 
     public function __construct()
@@ -25,12 +28,18 @@ class OrderService
         $this->userProductModel = new UserProduct();
         $this->orderProductModel = new OrderProduct();
         $this->productModel = new Product();
-        $this->authService = new AuthService();
+        $this->authService = new AuthSessionService();
+        $this->cartService = new CartService();
 
     }
 
     public function processCheckout(OrderCreateDTO $data)
     {
+        $sum = $this->cartService->getSum();
+        if ($sum < 1000){
+            throw new \Exception ('Для оформления заказа сумма корзины должна быть больше 1000' );
+        }
+
         $user = $this->authService->getCurrentUser();
         $orderId = $this->orderModel->create
         (

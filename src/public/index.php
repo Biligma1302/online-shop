@@ -4,7 +4,6 @@ use Controllers\CartController;
 use Controllers\OrderController;
 use Controllers\ProductController;
 use Controllers\UserController;
-use Core\Autoloader;
 use Controllers\ReviewController;
 use Request\EditProfileRequest;
 use Request\ProductIdRequest;
@@ -15,8 +14,6 @@ require_once "./../Core/Autoloader.php";
 
 $path = dirname(__DIR__);
 \Core\Autoloader::register($path);
-
-
 
 
  $app = new Core\App();
