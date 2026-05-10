@@ -6,7 +6,7 @@
     <title>Каталог товаров</title>
 
     <link href="https://googleapis.com" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
@@ -14,7 +14,7 @@
     <nav class="nav-container">
 
         <a href="/profile" class="nav-link profile-link">
-            🏠 👤 Личный кабинет (<?= htmlspecialchars($_SESSION['user_name'] ?? 'Гость') ?>)
+            🏠 👤 Личный кабинет (<?= $_SESSION['user_name'] ?? 'Гость' ?>)
         </a>
         </a>
         <a href="../cart" class="nav-link">🛒 Корзина (<?= number_format($totalSum ?? 0, 0, '.', ' ') ?> ₽)</a>
@@ -36,7 +36,7 @@
                     <h5 class="card-title"><?= htmlspecialchars($product->getDescription()); ?></h5>
 
                     <div class="controls-wrapper">
-                        <form action="/add-product" method="POST" style="display:inline;">
+                        <form class="ajax-form" action="/add-product" method="POST" style="display:inline;">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
                             <button type="submit" class="registerbtn">+</button>
                         </form>
@@ -45,7 +45,7 @@
                             <?= isset($user_products[$productId]) ? (int)$user_products[$productId]->getAmount() : 0; ?>
                         </span>
 
-                        <form action="/decrease-product" method="POST" style="display:inline;">
+                        <form class="ajax-form" action="/decrease-product" method="POST" style="display:inline;">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
                             <button type="submit" class="registerbtn">-</button>
                         </form>
@@ -67,6 +67,46 @@
     </div>
 </div>
 </body>
+<!---->
+<!--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
+<!---->
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('.ajax-form').submit(function () {-->
+<!---->
+<!--            $.ajax({-->
+<!--                type: "POST",-->
+<!--                url:  "/add-product",-->
+<!--                data: $(this).serialize(),-->
+<!--                dataType: 'json',-->
+<!--                success: function(response) {-->
+<!--                    console.log('test');-->
+<!--                },-->
+<!--                error: function(xhr, status, error) {-->
+<!--                    console.error("Ошибка при добавлении товара:", error);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!---->
+<!--        $('.ajax-form').submit(function () {-->
+<!---->
+<!--            $.ajax({-->
+<!--                type: "POST",-->
+<!--                url:  "/decrease-product",-->
+<!--                data: $(this).serialize(),-->
+<!--                dataType: 'json',-->
+<!--                success: function(response) {-->
+<!--                    console.log('test1');-->
+<!--                },-->
+<!--                error: function(xhr, status, error) {-->
+<!--                    console.error("Ошибка при удалении товара:", error);-->
+<!--                    }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+
 </html>
 <style>
 

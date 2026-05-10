@@ -1,6 +1,8 @@
 <?php
 
 namespace Model;
+use DTO\OrderHistoryDTO;
+
 class Order extends Model
 {
     private int $id;
@@ -10,17 +12,18 @@ class Order extends Model
     private string $comment;
     private string $address;
 
-   protected function getTableName(): string
+   protected static function getTableName(): string
    {
        return 'orders';
    }
 
 
 
-    public function create(string $contactName, string $contactPhone, string $comment, string $address, int $user_id)
+    public static function create(string $contactName, string $contactPhone, string $comment, string $address, int $user_id)
     {
-        $stmt = $this->pdo->prepare(
-            "INSERT INTO {$this->getTableName()} (contact_name, contact_phone, comment, address, user_id) 
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare(
+            "INSERT INTO {$tableName} (contact_name, contact_phone, comment, address, user_id) 
                    VALUES (:contact_name, :contact_phone, :comment, :address, :user_id) RETURNING id");
 
         $stmt->execute([
@@ -32,31 +35,48 @@ class Order extends Model
         ]);
         $data = $stmt->fetch();
         return $data['id'];
-
-
     }
 
-    public function getAllByUserId(int $user_id): array
+    public static function getAllByUserId(int $user_id): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->getTableName()}  WHERE user_id = :user_id");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare(
+            "SELECT 
+            o.id AS order_id, 
+            o.user_id, 
+            o.contact_name, 
+            o.contact_phone, 
+            o.comment, 
+            o.address,
+            p.id AS product_id, 
+            p.name AS product_name, 
+            p.price AS product_price, 
+            p.image_url,
+            op.amount
+    FROM {$tableName} o
+                   INNER JOIN order_products op ON o.id=op.order_id 
+                   INNER JOIN products p ON op.product_id=p.id
+                   WHERE o.user_id = :user_id");
         $stmt->execute(['user_id' => $user_id]);
         $userOrders = $stmt->fetchAll();
 
         $orders = [];
 
         foreach ($userOrders as $userOrder) {
-            $obj = new self();
-            $obj->id = $userOrder["id"];
-            $obj->user_id = $userOrder['user_id'];
-            $obj->contact_name = $userOrder['contact_name'];
-            $obj->contact_phone = $userOrder['contact_phone'];
-            $obj->comment = $userOrder['comment'];
-            $obj->address = $userOrder['address'];
-            $orders[] = $obj;
-        }
-
+            $orders[] = new OrderHistoryDTO(
+                (int) $userOrder["order_id"],
+                $userOrder['contact_name'],
+                $userOrder['contact_phone'],
+                $userOrder['address'],
+                $userOrder['comment'],
+                $userOrder['product_name'],
+                (float) $userOrder['product_price'],
+                (int) $userOrder['amount'],
+                $userOrder['image_url']);
+}
         return $orders;
     }
+
         public function getUserId(): int
         {
             return $this->user_id;

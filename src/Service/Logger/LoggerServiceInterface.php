@@ -2,7 +2,9 @@
 
 namespace Service\Logger;
 
+use Throwable;
+
 interface LoggerServiceInterface
 {
-    public static function error(\Throwable $exception): void;
+    public static function error(Throwable $exception): void;
 }

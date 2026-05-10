@@ -9,22 +9,25 @@ class OrderProduct extends Model
     private int $product_id;
     private int $amount;
 
-    protected function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'order_products';
     }
 
- public function create (int $order_id, int $product_id, int $amount) {
-    $stmt = $this->pdo->prepare(
-         "INSERT INTO {$this->getTableName()} (order_id, product_id, amount) VALUES (:orderId, :productId, :amount)"
+ public static function create (int $order_id, int $product_id, int $amount) {
+
+        $tableName = static::getTableName();
+    $stmt = static::getPDO()->prepare(
+         "INSERT INTO {$tableName} (order_id, product_id, amount) VALUES (:orderId, :productId, :amount)"
      );
     $stmt->execute (['orderId' => $order_id, 'productId' => $product_id, 'amount' => $amount]);
 
  }
 
- public function getAllByOrderId(int $order_id)
+ public static function getAllByOrderId(int $order_id)
  {
-     $stmt = $this->pdo->prepare("SELECT * FROM {$this->getTableName()} WHERE order_id = :order_id");
+     $tableName = static::getTableName();
+     $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName} WHERE order_id = :order_id");
      $stmt->execute(['order_id' => $order_id]);
      $orderProducts = $stmt->fetchAll();
      $orders = [];

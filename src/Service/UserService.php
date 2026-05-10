@@ -5,20 +5,22 @@ namespace Service;
 use DTO\RegisterUserDTO;
 use DTO\UpdateProfileDTO;
 use Model\User;
+use Service\Auth\AuthSessionService;
+
 
 
 class UserService
 {
-    private User $userModel;
+    private AuthSessionService $authSessionService;
 
     public function __construct()
     {
-        $this->userModel = new User();
+        $this->authSessionService = new AuthSessionService();
     }
 
     public function registerUser(RegisterUserDTO $dto)
     {
-        $result = $this->userModel->getByEmail($dto->getEmail());
+        $result = User::getByEmail($dto->getEmail());
 
         if ($result) {
             echo "Email уже занят";
@@ -26,18 +28,21 @@ class UserService
 
             $hashedPassword = password_hash($dto->getPassword(), PASSWORD_DEFAULT);
 
-            $this->userModel->insertInto($dto->getName(), $dto->getEmail(), $hashedPassword);
+            User::insertInto($dto->getName(), $dto->getEmail(), $hashedPassword);
         }
     }
     public function updateProfile(UpdateProfileDTO $dto)
     {
-        $user = $this->userModel->getbyId($dto->getUser()->getId());
+        $this->authSessionService->check();
+        $user = User::getbyId($dto->getUser()->getId());
 
           if ($user->getName() !== $dto->getName()) {
-           $this->userModel-> updateNameById($dto->getName(), $dto->getUser()->getId());
-    }
+           User::updateNameById($dto->getName(), $dto->getUser()->getId());
+
+              $_SESSION['user_name'] = $dto->getName();
+          }
             if ($user->getEmail() !== $dto->getEmail()) {
-            $this->userModel-> updateEmailById($dto->getEmail(), $dto->getUser()->getId());
+           User::updateEmailById($dto->getEmail(), $dto->getUser()->getId());
             }
     }
 }

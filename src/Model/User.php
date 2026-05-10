@@ -7,15 +7,16 @@ class User extends Model
    private string $email;
    private string $password;
 
-    protected function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'users';
     }
 
 
-    public function getByEmail(string $email): self|null
+    public static function getByEmail(string $email): self|null
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM  {$this->getTableName()} WHERE email = :email");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare("SELECT * FROM  {$tableName} WHERE email = :email");
         $stmt->execute([':email' => $email]);
         $result = $stmt->fetch();
         if ($result===false){
@@ -30,22 +31,24 @@ class User extends Model
         return $obj;
     }
 
-    public function updateEmailById(string $email, int $user_id)
+    public static function updateEmailById(string $email, int $user_id)
     {
-
-        $stmt = $this->pdo->prepare("UPDATE {$this->getTableName()}  SET email = :email WHERE id = $user_id");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare("UPDATE {$tableName}  SET email = :email WHERE id = $user_id");
         $stmt->execute([':email' => $email]);
     }
 
-    public function updateNameById(string $name, int $user_id)
+    public static function updateNameById(string $name, int $user_id)
     {
-        $stmt = $this->pdo->prepare("UPDATE {$this->getTableName()}  SET name = :name WHERE id = $user_id");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare("UPDATE {$tableName}  SET name = :name WHERE id = $user_id");
         $stmt->execute([':name' => $name]);
     }
 
-    public function getById(int $user_id): self|null
+    public static function getById(int $user_id): self|null
     {
-        $stmt = $this->pdo->query("SELECT * FROM {$this->getTableName()} WHERE id = $user_id");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->query("SELECT * FROM {$tableName} WHERE id = $user_id");
         $result = $stmt->fetch();
 
         if ($result===false){
@@ -60,16 +63,18 @@ class User extends Model
         return $obj;
     }
 
-    public function insertInto(string $name, string $email, string $hashedPassword)
+    public static function insertInto(string $name, string $email, string $hashedPassword)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO {$this->getTableName()} (name, email, password) VALUES (:name, :email, :hashedPassword)");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare("INSERT INTO {$tableName} (name, email, password) VALUES (:name, :email, :hashedPassword)");
         $stmt->execute(['name' => $name, 'email' => $email, 'hashedPassword' => $hashedPassword]);
 
     }
 
-    public function getByUsername(string $username):self|null
+    public static function getByUsername(string $username):self|null
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->getTableName()}  WHERE email = :email");
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName}  WHERE email = :email");
         $stmt->execute([':email' => $username]);
         $user = $stmt->fetch();
 

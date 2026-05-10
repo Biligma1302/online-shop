@@ -11,13 +11,11 @@ use Service\UserService;
 
 class UserController extends Controller
 {
-    protected User $userModel;
     private UserService $userService;
 
     public function __construct()
     {
         parent::__construct();
-        $this->userModel = new User();
         $this->userService = new UserService();
     }
 
@@ -88,7 +86,7 @@ class UserController extends Controller
         if ($this->authService->check()) {
             $user = $this->authService->getCurrentUser();
 
-           $user = $this->userModel->getByID($user->getId());
+           $user = User::getByID($user->getId());
 
             require_once '../Views/profile.php';
         } else {
@@ -114,7 +112,7 @@ public function getEditProfile()
     $errors = $request->validate();
     if (empty($errors)) {
 
-        $userByEmail = $this->userModel->getByEmail($request->getEmail());
+        $userByEmail = User::getByEmail($request->getEmail());
 
         $user = $this->authService->getCurrentUser();
         if ($userByEmail != null && $userByEmail->getId() !== $user->getId()) {

@@ -10,16 +10,11 @@ use Service\ReviewService;
 
 class ReviewController extends Controller
 {
-    private Product $productModel;
-    private Reviews $reviewsModel;
-
     private ReviewService $reviewService;
 
     public function __construct()
     {
         parent::__construct();
-        $this->productModel = new Product();
-        $this->reviewsModel = new Reviews();
         $this->reviewService = new ReviewService();
 
     }
@@ -28,9 +23,9 @@ class ReviewController extends Controller
         $product_id = $_GET['product_id'];
         if ($product_id) {
             $user = $this->authService->getCurrentUser();
-            $product = $this->productModel->getById($product_id);
+            $product = Product::getById($product_id);
             if ($product) {
-                $reviewsList = $this->reviewsModel->getReviewsByProductId($product_id);
+                $reviewsList = Reviews::getReviewsByProductId($product_id);
                 require_once '../Views/reviews_page.php';
             } else {
                 header('Location: /catalog');

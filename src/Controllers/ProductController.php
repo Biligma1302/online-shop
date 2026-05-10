@@ -11,15 +11,11 @@ use DTO\AddProductDTO;
 
 class ProductController extends Controller
 {
-    private Product $productModel;
-    private UserProduct $userProductModel;
     private CartService $cartService;
 
     public function __construct()
     {
         parent::__construct();
-        $this->productModel = new Product();
-        $this->userProductModel= new UserProduct();
         $this->cartService = new CartService();
 
     }
@@ -32,9 +28,9 @@ class ProductController extends Controller
         }
         $user = $this->authService->getCurrentUser();
 
-        $products = $this->productModel->getProducts();
+        $products = Product::getProducts();
 
-        $user_products = $this->userProductModel->getAmountCartItems($user->getId());
+        $user_products = UserProduct::getAmountCartItems($user->getId());
         $totalSum = $this->cartService->getSum();
 
         require_once '../Views/catalog_page.php';
@@ -53,7 +49,7 @@ class ProductController extends Controller
 
         if (empty($errors)) {
             $product_id = $request->getProductId();
-            $product = $this->productModel->getById($product_id);
+            $product = Product::getById($product_id);
 
             if ($product === null) {
                 $errors['product_id'] = 'Продукт не найден';

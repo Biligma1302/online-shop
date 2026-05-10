@@ -6,10 +6,12 @@ use PDO;
 
 abstract class Model
 {
- protected PDO $pdo;
+ protected static PDO $PDO;
 
- public function __construct()  {
-     $this->pdo = new PDO('pgsql:host=postgres_db; port=5432;dbname=dugarovadb', 'dugarova', 'Dugarova1302');
+ public static function getPDO(): PDO
+ {
+     static::$PDO = new PDO('pgsql:host=postgres_db; port=5432;dbname=dugarovadb', 'dugarova', 'Dugarova1302');
+     return static::$PDO;
  }
- abstract protected function getTableName(): string;
+ abstract static protected function getTableName(): string;
 }

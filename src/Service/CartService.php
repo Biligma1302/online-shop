@@ -11,15 +11,11 @@ use Service\Auth\AuthSessionService;
 
 class CartService
 {
-    private UserProduct $userProductModel;
-    private Product $productModel;
     private AuthInterface $authService;
 
 
     public function __construct()
     {
-        $this->userProductModel = new UserProduct();
-        $this->productModel = new Product();
         $this->authService = new AuthSessionService();
     }
 
@@ -31,24 +27,20 @@ class CartService
         {
             return[];
         }
-        $userProducts = $this->userProductModel->getAllUserProductsByUserId($user->getId());
+        $userProducts = UserProduct::getAllByUserIdWithProducts($user->getId());
 
         $products = [];
 
         foreach ($userProducts as $userProduct) {
 
-            $product = $this->productModel->getById($userProduct->getProductId());
-
-            if ($product) {
                 $products[] = [
                     'amount' => $userProduct->getAmount(),
-                    'name' => $product->getName(),
-                    'price' => $product->getPrice(),
-                    'image' => $product->getImageUrl(),
-                    'productId' => $product->getId(),
+                    'name' => $userProduct->getName(),
+                    'price' => $userProduct->getPrice(),
+                    'image' => $userProduct->getImageUrl(),
+                    'productId' => $userProduct->getProductId(),
                 ];
             }
-        }
         return $products;
     }
 
@@ -57,10 +49,10 @@ class CartService
     public function addProduct(AddProductDTO $dto)
     {
         $user = $this->authService->getCurrentUser();
-        $data = $this->userProductModel->getUserProduct($dto->getProductId(), $user->getId());
+        $data = UserProduct::getUserProduct($dto->getProductId(), $user->getId());
 
         if ($data === null) {
-            $this->userProductModel->insertUserProduct
+           UserProduct::insertUserProduct
             (
                 $user->getId(),
                 $dto->getProductId(),
@@ -69,7 +61,7 @@ class CartService
 
         } else {
             $newAmount = $data->getAmount() + $dto->getAmount();
-            $this->userProductModel->updateUserProduct
+            UserProduct::updateUserProduct
             (
                 $newAmount,
                 $user->getId(),
@@ -82,14 +74,14 @@ class CartService
     public function decreaseProduct(DecreaseProductDTO $dto)
     {
         $user = $this->authService->getCurrentUser();
-        $data = $this->userProductModel->getUserProduct($dto->getProductId(), $user->getId());
+        $data = UserProduct::getUserProduct($dto->getProductId(), $user->getId());
 
         if ($data) {
             $newAmount = $data->getAmount() - 1;
             if ($newAmount > 0) {
-                $this->userProductModel->updateUserProduct($newAmount, $user->getId(), $data->getProductId());
+                UserProduct::updateUserProduct($newAmount, $user->getId(), $data->getProductId());
             } else {
-                $this->userProductModel->deleteUserProducts($user->getId(), $dto->getProductId());
+               UserProduct::deleteUserProducts($user->getId(), $dto->getProductId());
             }
         }
     }

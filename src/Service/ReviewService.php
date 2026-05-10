@@ -7,14 +7,10 @@ use Model\Reviews;
 
 class ReviewService
 {
-    private Reviews $reviewsModel;
 
-    public function __construct(){
-        $this->reviewsModel = new Reviews();
-    }
 public function createReviews(reviewCreateDTO $dto)
 {
-    $this->reviewsModel->create
+    Reviews::create
     (
         $dto->getUser()->getId(),
         $dto->getProductId(),

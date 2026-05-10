@@ -4,15 +4,16 @@ namespace Model;
 
 class Error extends Model{
 
-    protected function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'errors';
     }
 
-    public function create(string $message, string $file, int $line): bool
+    public static function create(string $message, string $file, int $line): bool
     {
-        $stmt = $this->pdo->prepare(
-            "INSERT INTO {$this->getTableName()} (message, file, line, created_at) 
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare(
+            "INSERT INTO {$tableName} (message, file, line, created_at) 
                    VALUES (:message, :file, :line, :created_at)");
        return $stmt->execute([
            'message' => $message,

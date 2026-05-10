@@ -3,6 +3,7 @@ namespace Core;
 
 use Service\Logger\LoggerServiceFile;
 use Service\Logger\LoggerServiceBd;
+use Throwable;
 
 
 class App
@@ -35,7 +36,7 @@ class App
                     } else {
                         $controller->$method();
                     }
-                } catch (\Throwable $exception) {
+                } catch (Throwable $exception) {
                     $logger::error($exception);
 
                     require_once '../Views/500.php';

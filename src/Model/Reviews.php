@@ -10,15 +10,17 @@ class Reviews extends Model
     private $product_id;
     private $created_at;
 
-    protected function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'reviews';
     }
 
 
-    public function create( int $user_id, int $product_id, string $comment, int $rating) {
-    $stmt = $this->pdo->prepare(
-        "INSERT INTO {$this->getTableName()} (user_id, product_id, comment, rating) 
+    public static function create( int $user_id, int $product_id, string $comment, int $rating) {
+
+     $tableName = static::getTableName();
+    $stmt = static::getPDO()->prepare(
+        "INSERT INTO {$tableName} (user_id, product_id, comment, rating) 
          VALUES (:user_id, :product_id, :comment, :rating)");
      return $stmt->execute([
             'user_id' => $user_id,
@@ -27,10 +29,11 @@ class Reviews extends Model
             'rating' => $rating
         ]);
     }
-    public function getReviewsByProductId(int $product_id): array
+    public static function getReviewsByProductId(int $product_id): array
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM {$this->getTableName()} WHERE product_id = :product_id"
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare(
+            "SELECT * FROM {$tableName} WHERE product_id = :product_id"
         );
         $stmt->execute(['product_id' => $product_id]);
        $data= $stmt->fetchAll();

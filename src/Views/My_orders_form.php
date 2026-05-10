@@ -4,43 +4,44 @@
 
     <?php if (empty($newUserOrders)): ?>
         <p>У вас пока нет оформленных заказов.</p>
-        <a href="/catalog" class="orderbtn" style="text-align: center; display: block; text-decoration: none;">Перейти к покупкам</a>
+        <a href="/catalog" class="orderbtn" style="display: block; text-decoration: none;">Перейти к покупкам</a>
     <?php else: ?>
-        <?php foreach ($newUserOrders as $order): ?>
+        <?php
+        $currentOrderId = null;
+        foreach ($newUserOrders as $order):
+            ?>
+            <?php if ($currentOrderId !== $order->getOrderId()): ?>
+            <!-- Заголовок заказа (выводится один раз для всех товаров одного заказа) -->
+            <?php if ($currentOrderId !== null) echo '</ul></div></div><hr>'; ?>
+
             <div class="order-card">
-                <div class="order-header">
-                    <strong>Заказ №<?php echo $order['id']; ?></strong>
-                </div>
-
-                <div class="order-details">
-                    <p><b>Получатель:</b> <?php echo $order['contact_name']; ?></p>
-                    <p><b>Телефон:</b> <?php echo $order['contact_phone']; ?></p>
-                    <p><b>Адрес:</b> <?php echo $order['address']; ?></p>
-
-                    <?php if (!empty($order['comment'])): ?>
-                        <p><b>Комментарий:</b> <?php echo $order->getComment(); ?></p>
-                    <?php endif; ?>
-
-                    <p><b>Товары:</b></p>
-                    <ul>
-                        <?php foreach ($order['products'] as $product): ?>
-                            <li>
-                                <!-- Используем квадратные скобки, так как это массив из контроллера -->
-                                <?php echo $product['name']; ?> —
-                                <?php echo $product['amount']; ?> шт.
-                                (по <?php echo $product['price']; ?> руб.)
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-
-
-                    <p style="margin-top: 10px; font-size: 1.1em;">
-                        <strong>Итоговая сумма: <?php echo $order['total']; ?> руб.</strong>
-                    </p>
-                </div>
+            <div class="order-header">
+                <strong>Заказ №<?php echo $order->getOrderId(); ?></strong>
             </div>
-            <hr>
+            <div class="order-details">
+            <p><b>Получатель:</b> <?php echo $order->getContactName(); ?></p>
+            <p><b>Телефон:</b> <?php echo $order->getContactPhone(); ?></p>
+            <p><b>Адрес:</b> <?php echo $order->getAddress(); ?></p>
+
+            <?php if ($order->getComment()): ?>
+                <p><b>Комментарий:</b> <?php echo $order->getComment(); ?></p>
+            <?php endif; ?>
+
+            <p><b>Товары:</b></p>
+            <ul>
+            <?php $currentOrderId = $order->getOrderId(); ?>
+        <?php endif; ?>
+
+            <!-- Список товаров (выводится для каждой строки из DTO) -->
+            <li>
+                <?php echo $order->getProductName(); ?> —
+                <?php echo $order->getAmount(); ?> шт.
+                (по <?php echo $order->getPrice(); ?> руб.)
+            </li>
+
         <?php endforeach; ?>
+        </ul> <!-- Закрываем последний список -->
+        </div></div><hr>
     <?php endif; ?>
 
     <div style="margin-top: 15px; text-align: center;">
