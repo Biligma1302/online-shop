@@ -16,9 +16,9 @@ class ReviewController extends Controller
     {
         parent::__construct();
         $this->reviewService = new ReviewService();
-
     }
-    public function getReviewsPage()
+
+    public function getReviews()
     {
         $product_id = $_GET['product_id'];
         if ($product_id) {
@@ -33,6 +33,7 @@ class ReviewController extends Controller
             }
         }
     }
+
     public function PostReviews(ReviewCreateRequest $request)
     {
         $user = $this->authService->getCurrentUser();
@@ -40,7 +41,6 @@ class ReviewController extends Controller
         $errors = $request->validate();
 
         if (empty($errors)) {
-
             $dto = new ReviewCreateDTO(
                 $user,
                 $request->getProductId(),

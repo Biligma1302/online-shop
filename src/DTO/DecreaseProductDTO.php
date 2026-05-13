@@ -6,10 +6,10 @@ use Model\User;
 
 class DecreaseProductDTO
 {
-public function __construct(
-    private int $product_id,
-){
-}
+    public function __construct(
+        private int $product_id,
+    ) {
+    }
 
     public function getProductId(): int
     {

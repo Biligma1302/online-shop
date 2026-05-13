@@ -4,23 +4,24 @@ namespace Request;
 
 class RegistrationRequest
 {
-public function __construct(private array $data)
-{
-}
-  public function getName(): string
-  {
-      return $this->data['name'];
-  }
+    public function __construct(private array $data)
+    {
+    }
 
-  public function getEmail(): string
-  {
-      return $this->data['email'];
-  }
+    public function getName(): string
+    {
+        return $this->data['name'];
+    }
 
-  public function getPsw(): string
-{
-    return $this->data['psw'];
-}
+    public function getEmail(): string
+    {
+        return $this->data['email'];
+    }
+
+    public function getPsw(): string
+    {
+        return $this->data['psw'];
+    }
 
     public function validate(): array
     {

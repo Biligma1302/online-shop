@@ -1,4 +1,5 @@
 <?php
+
 namespace Core;
 
 use Service\Logger\LoggerServiceFile;
@@ -18,7 +19,6 @@ class App
         if (isset($this->routes[$requestUri])) {
             $routeMethods = $this->routes[$requestUri];
             if (isset($routeMethods[$requestMethod])) {
-
                 $handler = $routeMethods[$requestMethod];
                 $class = $handler['class'];
                 $method = $handler['method'];
@@ -41,7 +41,6 @@ class App
 
                     require_once '../Views/500.php';
                 }
-
             } else {
                 echo "$requestMethod не поддерживается для $requestUri";
             }
@@ -52,28 +51,34 @@ class App
     }
 
 
-
-    public function get(string $route,string $className, string $method, string $requestClass = null) {
+    public function get(string $route, string $className, string $method, string $requestClass = null)
+    {
         $this->routes[$route]['GET'] = [
             'class' => $className,
             'method' => $method,
             'request' => $requestClass
         ];
     }
-    public function post(string $route,string $className, string $method, string $requestClass = null) {
+
+    public function post(string $route, string $className, string $method, string $requestClass = null)
+    {
         $this->routes[$route]['POST'] = [
             'class' => $className,
             'method' => $method,
             'request' => $requestClass
         ];
     }
-    public function put(string $route,string $className, string $method) {
+
+    public function put(string $route, string $className, string $method)
+    {
         $this->routes[$route]['PUT'] = [
             'class' => $className,
             'method' => $method
         ];
     }
-    public function delete(string $route,string $className, string $method) {
+
+    public function delete(string $route, string $className, string $method)
+    {
         $this->routes[$route]['DELETE'] = [
             'class' => $className,
             'method' => $method

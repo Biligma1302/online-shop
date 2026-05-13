@@ -5,18 +5,17 @@ namespace DTO;
 class OrderHistoryDTO
 {
     public function __construct(
-        private int    $order_id,
+        private int $order_id,
         private string $contact_name,
         private string $contact_phone,
         private string $address,
         private string $comment,
 
         private string $product_name,
-        private float  $price,
-        private int    $amount,
+        private float $price,
+        private int $amount,
         private string $image_url,
-    )
-    {
+    ) {
     }
 
     public function getOrderId(): int
@@ -63,6 +62,7 @@ class OrderHistoryDTO
     {
         return $this->image_url;
     }
+
     public function getTotalSum(): float
     {
         return $this->price * $this->amount;

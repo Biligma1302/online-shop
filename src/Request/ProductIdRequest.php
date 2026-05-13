@@ -9,10 +9,10 @@ class ProductIdRequest
     {
     }
 
-public function getProductId(): int
-{
-    return $this->data['product_id'];
-}
+    public function getProductId(): int
+    {
+        return $this->data['product_id'];
+    }
 
     public function addProductValidate(): array
     {

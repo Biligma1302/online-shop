@@ -1,10 +1,12 @@
 <?php
+
 namespace Controllers;
+
 use DTO\AuthDTO;
 use DTO\RegisterUserDTO;
 use DTO\UpdateProfileDTO;
 use Model\User;
-use Request\EditProfileRequest;
+use Request\UpdateProfileRequest;
 use Request\LoginRequest;
 use Request\RegistrationRequest;
 use Service\UserService;
@@ -23,22 +25,23 @@ class UserController extends Controller
     public function getRegistrateForm()
     {
         if ($this->authService->check()) {
-            header ("Location: /catalog");
+            header("Location: /catalog");
         }
         require_once '../Views/registration_form.php';
     }
+
     public function registrate(RegistrationRequest $request)
     {
         $errors = $request->validate();
 
         if (empty($errors)) {
-
             $dto = new RegisterUserDTO(
                 $request->getName(),
                 $request->getEmail(),
-                $request->getPsw());
+                $request->getPsw()
+            );
 
-          $this->userService->registerUser($dto);
+            $this->userService->registerUser($dto);
         }
         require_once '../Views/login_form.php';
     }
@@ -61,32 +64,25 @@ class UserController extends Controller
         $errors = $request->validate();
 
         if (empty($errors)) {
-
             $dto = new AuthDTO($request->getUsername(), $request->getPassword());
             $result = $this->authService->auth($dto);
             if ($result) {
                 header("Location: /catalog");
                 exit();
-
             } else {
                 $errors['username'] = 'Неверное имя пользователя или пароль';
-                }
             }
+        }
         require_once '../Views/login_form.php';
     }
 
 
-    public function getDisplayProfile()
+    public function showProfile()
     {
-        require_once '../Views/profile.php';
-    }
-    public function displayProfile()
-    {
-
         if ($this->authService->check()) {
             $user = $this->authService->getCurrentUser();
 
-           $user = User::getByID($user->getId());
+            $user = User::getByID($user->getId());
 
             require_once '../Views/profile.php';
         } else {
@@ -96,44 +92,43 @@ class UserController extends Controller
     }
 
 
-public function getEditProfile()
+    public function editProfile()
 
-{
-    $user = $this->authService->getCurrentUser();
-    require_once '../Views/edit_profile_form.php';
-}
-
-    public function editProfile(EditProfileRequest $request)
-{
-    if (!$this->authService->check()) {
-        header( "Location: /login");
-        exit;
-    }
-    $errors = $request->validate();
-    if (empty($errors)) {
-
-        $userByEmail = User::getByEmail($request->getEmail());
-
+    {
         $user = $this->authService->getCurrentUser();
-        if ($userByEmail != null && $userByEmail->getId() !== $user->getId()) {
-            $errors['email'] = "Этот email уже зарегистрирован";
+        require_once '../Views/edit_profile_form.php';
     }
 
-    if (empty($errors)) {
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        if (!$this->authService->check()) {
+            header("Location: /login");
+            exit;
+        }
+        $errors = $request->validate();
+        if (empty($errors)) {
+            $userByEmail = User::getByEmail($request->getEmail());
 
-        $dto = new UpdateProfileDTO($user, $request->getName(), $request->getEmail());
+            $user = $this->authService->getCurrentUser();
+            if ($userByEmail != null && $userByEmail->getId() !== $user->getId()) {
+                $errors['email'] = "Этот email уже зарегистрирован";
+            }
 
-      $this->userService->updateProfile($dto);
+            if (empty($errors)) {
+                $dto = new UpdateProfileDTO($user, $request->getName(), $request->getEmail());
 
-        header("Location: /profile");
-        exit;
+                $this->userService->updateProfile($dto);
+
+                header("Location: /profile");
+                exit;
+            }
+            require_once '../Views/edit_profile_form.php';
+        }
     }
-    require_once '../Views/edit_profile_form.php';
-}
-}
 
-    public function logout() {
-       $this->authService->logout();
+    public function logout()
+    {
+        $this->authService->logout();
         header("Location: /login");
         exit();
     }

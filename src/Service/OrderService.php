@@ -24,7 +24,6 @@ class OrderService
     {
         $this->authService = new AuthSessionService();
         $this->cartService = new CartService();
-
     }
 
     public function processCheckout(OrderCreateDTO $data)

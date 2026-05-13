@@ -4,19 +4,18 @@ namespace DTO;
 
 class UserProductDTO
 {
-public function __construct(
- private int $id,
-    private int $user_id,
-    private int $product_id,
-    private int $amount,
+    public function __construct(
+        private int $id,
+        private int $user_id,
+        private int $product_id,
+        private int $amount,
 
-    private string $name,
-    private string $description,
-    private float $price,
-    private string $image_url
-){
-
-}
+        private string $name,
+        private string $description,
+        private float $price,
+        private string $image_url
+    ) {
+    }
 
     public function getId(): int
     {

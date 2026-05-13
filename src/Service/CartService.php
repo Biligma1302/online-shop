@@ -23,27 +23,24 @@ class CartService
     public function getUserProducts(): array
     {
         $user = $this->authService->getCurrentUser();
-        if($user===null)
-        {
-            return[];
+        if ($user === null) {
+            return [];
         }
         $userProducts = UserProduct::getAllByUserIdWithProducts($user->getId());
 
         $products = [];
 
         foreach ($userProducts as $userProduct) {
-
-                $products[] = [
-                    'amount' => $userProduct->getAmount(),
-                    'name' => $userProduct->getName(),
-                    'price' => $userProduct->getPrice(),
-                    'image' => $userProduct->getImageUrl(),
-                    'productId' => $userProduct->getProductId(),
-                ];
-            }
+            $products[] = [
+                'amount' => $userProduct->getAmount(),
+                'name' => $userProduct->getName(),
+                'price' => $userProduct->getPrice(),
+                'image' => $userProduct->getImageUrl(),
+                'productId' => $userProduct->getProductId(),
+            ];
+        }
         return $products;
     }
-
 
 
     public function addProduct(AddProductDTO $dto)
@@ -52,13 +49,12 @@ class CartService
         $data = UserProduct::getUserProduct($dto->getProductId(), $user->getId());
 
         if ($data === null) {
-           UserProduct::insertUserProduct
+            UserProduct::insertUserProduct
             (
                 $user->getId(),
                 $dto->getProductId(),
                 $dto->getAmount()
             );
-
         } else {
             $newAmount = $data->getAmount() + $dto->getAmount();
             UserProduct::updateUserProduct
@@ -81,7 +77,7 @@ class CartService
             if ($newAmount > 0) {
                 UserProduct::updateUserProduct($newAmount, $user->getId(), $data->getProductId());
             } else {
-               UserProduct::deleteUserProducts($user->getId(), $dto->getProductId());
+                UserProduct::deleteUserProducts($user->getId(), $dto->getProductId());
             }
         }
     }
@@ -89,7 +85,7 @@ class CartService
     public function getSum(): int
     {
         $total = 0;
-        foreach ($this->getUserProducts() as $userProduct ) {
+        foreach ($this->getUserProducts() as $userProduct) {
             $total += $userProduct['price'] * $userProduct['amount'];
         }
         return $total;

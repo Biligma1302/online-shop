@@ -1,5 +1,7 @@
 <?php
+
 namespace Model;
+
 class Product extends Model
 {
     private int $id;
@@ -22,8 +24,7 @@ class Product extends Model
         $products = $stmt->fetchAll();
         $result = [];
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $obj = new self();
 
             $obj->id = $product['id'];
@@ -44,7 +45,7 @@ class Product extends Model
         $stmt->execute(['product_id' => $product_id]);
         $product = $stmt->fetch();
 
-        if($product === false) {
+        if ($product === false) {
             return null;
         }
         $obj = new self;
@@ -56,22 +57,22 @@ class Product extends Model
 
         return $obj;
     }
+
     public static function getFull($userProducts): array
     {
         $products = [];
 
         foreach ($userProducts as $userProduct) {
-
             $product = static::getPDO()->getById($userProduct->getProductId());
 
             if ($product === null) {
                 continue;
             }
             $products[] = [
-                'amount'    => $userProduct->getAmount(),
-                'name'      => $product->getName(),
-                'price'     => $product->getPrice(),
-                'image'     => $product->getImageUrl(),
+                'amount' => $userProduct->getAmount(),
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+                'image' => $product->getImageUrl(),
                 'productId' => $product->getId(),
             ];
         }

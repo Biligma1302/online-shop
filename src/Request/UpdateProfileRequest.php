@@ -2,20 +2,22 @@
 
 namespace Request;
 
-class EditProfileRequest
+class UpdateProfileRequest
 {
-public function __construct(private array $data)
-{
+    public function __construct(private array $data)
+    {
+    }
 
-}
-public function getName(): string
-{
-    return $this->data['name'];
-}
-public function getEmail(): string
-{
-    return $this->data['email'];
-}
+    public function getName(): string
+    {
+        return $this->data['name'];
+    }
+
+    public function getEmail(): string
+    {
+        return $this->data['email'];
+    }
+
     function validate(): array
     {
         $errors = [];
@@ -33,9 +35,8 @@ public function getEmail(): string
                 $errors['email'] = "Email не может содержать меньше 5 сиволов";
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = "Некорректный email";
-
-                }
             }
+        }
         return $errors;
     }
 }

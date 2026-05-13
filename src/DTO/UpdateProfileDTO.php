@@ -6,12 +6,12 @@ use Model\User;
 
 class UpdateProfileDTO
 {
-public function __construct(
-    private User $user,
-    private string $name,
-    private string $email,
-){
-}
+    public function __construct(
+        private User $user,
+        private string $name,
+        private string $email,
+    ) {
+    }
 
     public function getUser(): User
     {

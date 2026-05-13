@@ -8,7 +8,7 @@ use Request\OrderCreateRequest;
 
 
 class OrderController extends Controller
- {
+{
     private OrderService $orderService;
 
 
@@ -16,7 +16,6 @@ class OrderController extends Controller
     {
         parent::__construct();
         $this->orderService = new OrderService();
-
     }
 
     public function getCheckoutForm()
@@ -26,30 +25,27 @@ class OrderController extends Controller
 
     public function handleCheckout(OrderCreateRequest $request)
     {
-        if (!$this->authService->check())  {
+        if (!$this->authService->check()) {
             header("Location:/Login");
             exit();
         }
 
         $errors = $request->validate();
         if (empty($errors)) {
-
-          $dto = new OrderCreateDTO(
-              $request->getContactName(),
-              $request->getContactPhone(),
-              $request->getComment(),
-              $request->getAddress(),
-              );
+            $dto = new OrderCreateDTO(
+                $request->getContactName(),
+                $request->getContactPhone(),
+                $request->getComment(),
+                $request->getAddress(),
+            );
             $this->orderService->processCheckout($dto);
 
             header("Location: /order-success");
             exit();
-
         } else {
             require_once './../Views/order_form.php';
         }
     }
-
 
 
     public function displaySuccessOrder()
@@ -59,8 +55,7 @@ class OrderController extends Controller
 
     public function getAllOrders()
     {
-        if (!$this->authService->check())
-        {
+        if (!$this->authService->check()) {
             header("Location:/Login");
             exit();
         }
@@ -69,7 +64,7 @@ class OrderController extends Controller
 
         require_once './../Views/My_orders_form.php';
     }
- }
+}
 
 
 

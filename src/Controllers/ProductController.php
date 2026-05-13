@@ -17,7 +17,6 @@ class ProductController extends Controller
     {
         parent::__construct();
         $this->cartService = new CartService();
-
     }
 
     public function getCatalog()
@@ -35,7 +34,6 @@ class ProductController extends Controller
 
         require_once '../Views/catalog_page.php';
     }
-
 
 
     public function addProduct(ProductIdRequest $request)
@@ -57,7 +55,6 @@ class ProductController extends Controller
         }
 
         if (empty($errors)) {
-
             $amount = 1;
 
             $dto = new AddProductDTO($request->getProductId(), $amount);
@@ -78,7 +75,7 @@ class ProductController extends Controller
 
         $dto = new DecreaseProductDTO($request->getProductId());
 
-      $this->cartService->decreaseProduct($dto);
+        $this->cartService->decreaseProduct($dto);
 
         header("Location: /catalog");
         exit();

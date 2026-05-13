@@ -16,19 +16,21 @@ class Reviews extends Model
     }
 
 
-    public static function create( int $user_id, int $product_id, string $comment, int $rating) {
-
-     $tableName = static::getTableName();
-    $stmt = static::getPDO()->prepare(
-        "INSERT INTO {$tableName} (user_id, product_id, comment, rating) 
-         VALUES (:user_id, :product_id, :comment, :rating)");
-     return $stmt->execute([
+    public static function create(int $user_id, int $product_id, string $comment, int $rating)
+    {
+        $tableName = static::getTableName();
+        $stmt = static::getPDO()->prepare(
+            "INSERT INTO {$tableName} (user_id, product_id, comment, rating) 
+         VALUES (:user_id, :product_id, :comment, :rating)"
+        );
+        return $stmt->execute([
             'user_id' => $user_id,
             'product_id' => $product_id,
             'comment' => $comment,
             'rating' => $rating
         ]);
     }
+
     public static function getReviewsByProductId(int $product_id): array
     {
         $tableName = static::getTableName();
@@ -36,7 +38,7 @@ class Reviews extends Model
             "SELECT * FROM {$tableName} WHERE product_id = :product_id"
         );
         $stmt->execute(['product_id' => $product_id]);
-       $data= $stmt->fetchAll();
+        $data = $stmt->fetchAll();
         $reviews = [];
         foreach ($data as $reviewData) {
             $obj = new self();
@@ -44,13 +46,13 @@ class Reviews extends Model
             $obj->user_id = $reviewData['user_id'];
             $obj->product_id = $reviewData['product_id'];
             $obj->comment = $reviewData['comment'];
-            $obj->rating= $reviewData['rating'];
+            $obj->rating = $reviewData['rating'];
             $obj->created_at = $reviewData['created_at'];
             $reviews[] = $obj;
         }
         return $reviews;
-       }
-       
+    }
+
 
     public function getRating()
     {

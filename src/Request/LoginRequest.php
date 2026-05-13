@@ -4,17 +4,20 @@ namespace Request;
 
 class LoginRequest
 {
-public function __construct(private array $data)
-{
-}
-public function getUsername()
-{
-    return $this->data['username'];
-}
-public function getPassword()
-{
-    return $this->data['password'];
-}
+    public function __construct(private array $data)
+    {
+    }
+
+    public function getUsername()
+    {
+        return $this->data['username'];
+    }
+
+    public function getPassword()
+    {
+        return $this->data['password'];
+    }
+
     public function validate(): array
     {
         $errors = [];

@@ -2,7 +2,8 @@
 
 namespace Model;
 
-class Error extends Model{
+class Error extends Model
+{
 
     protected static function getTableName(): string
     {
@@ -14,9 +15,10 @@ class Error extends Model{
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
             "INSERT INTO {$tableName} (message, file, line, created_at) 
-                   VALUES (:message, :file, :line, :created_at)");
-       return $stmt->execute([
-           'message' => $message,
+                   VALUES (:message, :file, :line, :created_at)"
+        );
+        return $stmt->execute([
+            'message' => $message,
             'file' => $file,
             'line' => $line,
             'created_at' => date('Y-m-d H:i:s')

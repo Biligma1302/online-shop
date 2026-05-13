@@ -1,11 +1,13 @@
 <?php
+
 namespace Model;
+
 class User extends Model
 {
-   private int $id;
-   private string $name;
-   private string $email;
-   private string $password;
+    private int $id;
+    private string $name;
+    private string $email;
+    private string $password;
 
     protected static function getTableName(): string
     {
@@ -19,7 +21,7 @@ class User extends Model
         $stmt = static::getPDO()->prepare("SELECT * FROM  {$tableName} WHERE email = :email");
         $stmt->execute([':email' => $email]);
         $result = $stmt->fetch();
-        if ($result===false){
+        if ($result === false) {
             return null;
         }
         $obj = new self();
@@ -51,7 +53,7 @@ class User extends Model
         $stmt = static::getPDO()->query("SELECT * FROM {$tableName} WHERE id = $user_id");
         $result = $stmt->fetch();
 
-        if ($result===false){
+        if ($result === false) {
             return null;
         }
         $obj = new self();
@@ -66,19 +68,20 @@ class User extends Model
     public static function insertInto(string $name, string $email, string $hashedPassword)
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("INSERT INTO {$tableName} (name, email, password) VALUES (:name, :email, :hashedPassword)");
+        $stmt = static::getPDO()->prepare(
+            "INSERT INTO {$tableName} (name, email, password) VALUES (:name, :email, :hashedPassword)"
+        );
         $stmt->execute(['name' => $name, 'email' => $email, 'hashedPassword' => $hashedPassword]);
-
     }
 
-    public static function getByUsername(string $username):self|null
+    public static function getByUsername(string $username): self|null
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName}  WHERE email = :email");
         $stmt->execute([':email' => $username]);
         $user = $stmt->fetch();
 
-        if ($user=== false){
+        if ($user === false) {
             return null;
         }
 

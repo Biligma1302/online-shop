@@ -8,14 +8,14 @@ use Model\Reviews;
 class ReviewService
 {
 
-public function createReviews(reviewCreateDTO $dto)
-{
-    Reviews::create
-    (
-        $dto->getUser()->getId(),
-        $dto->getProductId(),
-        $dto->getComment(),
-        $dto->getRating()
-    );
-}
+    public function createReviews(reviewCreateDTO $dto)
+    {
+        Reviews::create
+        (
+            $dto->getUser()->getId(),
+            $dto->getProductId(),
+            $dto->getComment(),
+            $dto->getRating()
+        );
+    }
 }

@@ -6,14 +6,14 @@ use Model\User;
 
 class OrderCreateDTO
 {
- public function __construct(
-     private string $contactName,
-     private string $contactPhone,
-     private string $comment,
-     private string $address,
+    public function __construct(
+        private string $contactName,
+        private string $contactPhone,
+        private string $comment,
+        private string $address,
 
- ){
- }
+    ) {
+    }
 
     public function getContactName(): string
     {

@@ -40,7 +40,6 @@ class AuthCookieService implements AuthInterface
             $passwordDb = $user->getPassword();
 
             if (password_verify($dto->getPassword(), $passwordDb)) {
-
                 setcookie('logged_in', 'true');
                 setcookie('user_id', $user->getId());
                 setcookie('user_name', $user->getName());

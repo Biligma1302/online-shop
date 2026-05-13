@@ -4,12 +4,12 @@ namespace DTO;
 
 class RegisterUserDTO
 {
-public function __construct(
-   private string $name,
-   private string $email,
-   private string $password
-){
-}
+    public function __construct(
+        private string $name,
+        private string $email,
+        private string $password
+    ) {
+    }
 
     public function getName(): string
     {

@@ -5,9 +5,9 @@ use DTO\UserProductDTO;
 class UserProduct extends Model
 {
  private int $id;
- private int $product_id;
- private int $user_id;
- private int $amount;
+  private int $product_id;
+   private int $user_id;
+    private int $amount;
 
 
 

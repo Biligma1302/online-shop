@@ -9,7 +9,7 @@ use Request\ProductIdRequest;
 
 
 class CartController extends Controller
- {
+{
     private CartService $cartService;
 
     public function __construct()
@@ -31,7 +31,7 @@ class CartController extends Controller
         }
     }
 
-    public function addProductToCart(ProductIdRequest $request)
+    public function addProduct(ProductIdRequest $request)
     {
         if (!$this->authService->check()) {
             header("Location: /login");
@@ -42,14 +42,15 @@ class CartController extends Controller
 
         $dto = new AddProductDTO($request->getProductId(), $amount);
 
-       $this->cartService->addProduct($dto);
+        $this->cartService->addProduct($dto);
+
         header("Location: /cart");
         exit();
     }
 
-    public function decreaseProductFromCart(ProductIdRequest $request)
+    public function decreaseProduct(ProductIdRequest $request)
     {
-       if (!$this->authService->check()) {
+        if (!$this->authService->check()) {
             header("Location: /login");
             exit();
         }

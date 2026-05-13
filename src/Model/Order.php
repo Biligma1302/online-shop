@@ -1,6 +1,7 @@
 <?php
 
 namespace Model;
+
 use DTO\OrderHistoryDTO;
 
 class Order extends Model
@@ -12,19 +13,24 @@ class Order extends Model
     private string $comment;
     private string $address;
 
-   protected static function getTableName(): string
-   {
-       return 'orders';
-   }
-
-
-
-    public static function create(string $contactName, string $contactPhone, string $comment, string $address, int $user_id)
+    protected static function getTableName(): string
     {
+        return 'orders';
+    }
+
+
+    public static function create(
+        string $contactName,
+        string $contactPhone,
+        string $comment,
+        string $address,
+        int $user_id
+    ) {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
             "INSERT INTO {$tableName} (contact_name, contact_phone, comment, address, user_id) 
-                   VALUES (:contact_name, :contact_phone, :comment, :address, :user_id) RETURNING id");
+                   VALUES (:contact_name, :contact_phone, :comment, :address, :user_id) RETURNING id"
+        );
 
         $stmt->execute([
             'contact_name' => $contactName,
@@ -56,7 +62,8 @@ class Order extends Model
     FROM {$tableName} o
                    INNER JOIN order_products op ON o.id=op.order_id 
                    INNER JOIN products p ON op.product_id=p.id
-                   WHERE o.user_id = :user_id");
+                   WHERE o.user_id = :user_id"
+        );
         $stmt->execute(['user_id' => $user_id]);
         $userOrders = $stmt->fetchAll();
 
@@ -64,48 +71,49 @@ class Order extends Model
 
         foreach ($userOrders as $userOrder) {
             $orders[] = new OrderHistoryDTO(
-                (int) $userOrder["order_id"],
+                (int)$userOrder["order_id"],
                 $userOrder['contact_name'],
                 $userOrder['contact_phone'],
                 $userOrder['address'],
                 $userOrder['comment'],
                 $userOrder['product_name'],
-                (float) $userOrder['product_price'],
-                (int) $userOrder['amount'],
-                $userOrder['image_url']);
-}
+                (float)$userOrder['product_price'],
+                (int)$userOrder['amount'],
+                $userOrder['image_url']
+            );
+        }
         return $orders;
     }
 
-        public function getUserId(): int
-        {
-            return $this->user_id;
-        }
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
 
-        public function getContactName(): string
-        {
-            return $this->contact_name;
-        }
+    public function getContactName(): string
+    {
+        return $this->contact_name;
+    }
 
-        public function getContactPhone(): string
-        {
-            return $this->contact_phone;
-        }
+    public function getContactPhone(): string
+    {
+        return $this->contact_phone;
+    }
 
-        public function getComment(): string
-        {
-            return $this->comment;
-        }
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
 
-        public function getAddress(): string
-        {
-            return $this->address;
-        }
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
 
-        public function getId(): int
-        {
-            return $this->id;
-        }
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
 }
 

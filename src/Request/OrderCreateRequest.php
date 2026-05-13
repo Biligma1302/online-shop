@@ -4,9 +4,10 @@ namespace Request;
 
 class OrderCreateRequest
 {
-public function __construct(private array $data){
+    public function __construct(private array $data)
+    {
+    }
 
-}
     public function getContactName(): string
     {
         return $this->data['contact_name'];
@@ -21,6 +22,7 @@ public function __construct(private array $data){
     {
         return $this->data['comment'];
     }
+
     public function getAddress(): string
     {
         return $this->data['address'];

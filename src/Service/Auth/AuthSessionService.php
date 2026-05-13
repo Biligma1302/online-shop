@@ -32,7 +32,7 @@ class AuthSessionService implements AuthInterface
         }
     }
 
-    public function auth(AuthDTO $dto):bool
+    public function auth(AuthDTO $dto): bool
     {
         $this->startSession();
 
@@ -44,7 +44,6 @@ class AuthSessionService implements AuthInterface
             $passwordDb = $user->getPassword();
 
             if (password_verify($dto->getPassword(), $passwordDb)) {
-
                 $_SESSION['logged_in'] = true;
                 $_SESSION['user_id'] = $user->getId();
                 $_SESSION['user_name'] = $user->getName();

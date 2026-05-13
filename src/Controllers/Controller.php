@@ -6,11 +6,11 @@ use Service\Auth\AuthInterface;
 use Service\Auth\AuthSessionService;
 
 abstract class Controller
-  {
-   protected  AuthInterface $authService;
+{
+    protected AuthInterface $authService;
 
-   public function __construct()
-   {
-       $this->authService = new AuthSessionService();
-   }
- }
+    public function __construct()
+    {
+        $this->authService = new AuthSessionService();
+    }
+}

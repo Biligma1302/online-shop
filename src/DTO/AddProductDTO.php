@@ -7,10 +7,9 @@ use Model\User;
 class AddProductDTO
 {
     public function __construct(
-        private int  $product_id,
-        private int  $amount,
-      )
-    {
+        private int $product_id,
+        private int $amount,
+    ) {
     }
 
     public function getProductId(): int
