@@ -18,7 +18,7 @@
             <p class="empty-cart">В корзине пока пусто :(</p>
         <?php else: ?>
             <?php foreach ($userProducts as $item): ?>
-                <div class="card">
+                <div class="card" data-price="<?= $item['price'] ?>">
                     <div class="card-img-wrapper">
                         <img class="card-img-top" src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
                     </div>
@@ -30,15 +30,15 @@
                             <span class="info-value"><?= number_format($item['price'], 0, '.', ' ') ?> ₽</span>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                            <form action="/decreaseProduct" method="POST" style="margin: 0;">
+                        <div class="controls-wrapper" style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                            <form class="ajax-form" action="/decreaseProduct" method="POST" style="margin: 0;">
                                 <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
                                 <button type="submit" class="btn-qty-mini">-</button>
                             </form>
 
-                            <span class="info-value"><?= $item['amount'] ?> шт.</span>
+                            <span class="info-value amount-badge"><?= $item['amount'] ?> шт.</span>
 
-                            <form action="/addProduct" method="POST" style="margin: 0;">
+                            <form class="ajax-form" action="/addProduct" method="POST" style="margin: 0;">
                                 <input type="hidden" name="product_id" value="<?= $item['productId'] ?>">
                                 <button type="submit" class="btn-qty-mini">+</button>
                             </form>
@@ -47,7 +47,7 @@
 
                     <div class="card-footer">
                         <span class="total-label">Сумма:</span>
-                        <span class="total-price"><?= $item['price'] * $item['amount'], 0, '.', ' ' ?> ₽</span>
+                        <span class="total-price js-item-total"><?= number_format($item['price'] * $item['amount'], 0, '.', ' ') ?> ₽</span>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -57,13 +57,39 @@
     <?php if (!empty($userProducts)): ?>
         <div class="cart-total-footer" style="margin-top: 40px; padding: 20px; border-top: 2px solid #eee; text-align: right;">
             <div style="font-size: 1.2rem; color: #666; margin-bottom: 5px;">Общая стоимость:</div>
-            <div style="font-size: 2rem; font-weight: bold; color: #333;"><?= number_format($totalSum, 0, '.', ' ') ?> ₽</div>
+            <div class="js-cart-total"  style="font-size: 2rem; font-weight: bold; color: #333;"><?= number_format($totalSum, 0, '.', ' ') ?> ₽</div>
         </div>
     <?php endif; ?>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.ajax-form').submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    var badge = form.closest('.controls-wrapper').find('.amount-badge');
+                    badge.text(response.newAmount + ' шт.');
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) { window.location.href = '/login'; }
+                    else { console.error("Ошибка:", xhr.responseText); }
+                }
+            });
+        });
+    });
+</script>
+
 <style>
-    /* Базовые настройки */
     body {
         font-family: 'Roboto', sans-serif;
         background-color: #f0f2f5;
@@ -84,7 +110,6 @@
         color: #1a1a1a;
     }
 
-    /* Хедер */
     .main-header {
         background: #fff;
         padding: 15px 0;
@@ -126,11 +151,10 @@
 
     .btn-checkout:hover { background: #218838; }
 
-    /* Сетка и Карточки */
     .card-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center; /* Центрирование товаров */
+        justify-content: center;
         gap: 30px;
     }
 
@@ -198,4 +222,15 @@
     .total-price { font-size: 1.2rem; font-weight: bold; color: #007bff; }
 
     .empty-cart { font-size: 1.2rem; color: #999; margin-top: 50px; }
+
+    .btn-qty-mini {
+        background: #f0f2f5;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+    .btn-qty-mini:hover { background: #e4e6eb; }
 </style>

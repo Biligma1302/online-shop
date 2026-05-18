@@ -1,7 +1,8 @@
 <?php
 
-namespace Request;
+declare(strict_types=1);
 
+namespace Request;
 
 class ProductIdRequest
 {
@@ -11,10 +12,10 @@ class ProductIdRequest
 
     public function getProductId(): int
     {
-        return $this->data['product_id'];
+        return (int) ($this->data['product_id'] ?? 0);
     }
 
-    public function addProductValidate(): array
+    public function validateProductId(): array
     {
         $errors = [];
         if (isset($this->data['product_id'])) {

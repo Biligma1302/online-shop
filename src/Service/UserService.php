@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 use DTO\RegisterUserDTO;
 use DTO\UpdateProfileDTO;
+
 use Model\User;
+
 use Service\Auth\AuthSessionService;
 
 
@@ -17,12 +21,12 @@ class UserService
         $this->authSessionService = new AuthSessionService();
     }
 
-    public function registerUser(RegisterUserDTO $dto)
+    public function registerUser(RegisterUserDTO $dto): void
     {
         $result = User::getByEmail($dto->getEmail());
 
         if ($result) {
-            echo "Email уже занят";
+            throw new \Exception("Этот email уже зарегистрирован");
         } else {
             $hashedPassword = password_hash($dto->getPassword(), PASSWORD_DEFAULT);
 
@@ -30,10 +34,9 @@ class UserService
         }
     }
 
-    public function updateProfile(UpdateProfileDTO $dto)
+    public function updateProfile(UpdateProfileDTO $dto): void
     {
-        $this->authSessionService->check();
-        $user = User::getbyId($dto->getUser()->getId());
+        $user = User::getById($dto->getUser()->getId());
 
         if ($user->getName() !== $dto->getName()) {
             User::updateNameById($dto->getName(), $dto->getUser()->getId());

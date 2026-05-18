@@ -23,7 +23,7 @@ class AuthCookieService implements AuthInterface
     {
         if ($this->check()) {
             $user_id = $_COOKIE['user_id'];
-            $user = $this->userModel->getByID($user_id);
+            $user = $this->userModel->getById($user_id);
             return $user;
         } else {
             return null;
@@ -34,7 +34,7 @@ class AuthCookieService implements AuthInterface
     {
         $user = $this->userModel->getByUsername($dto->getUsername());
 
-        if ($user === false) {
+        if ($user === null) {
             return false;
         } else {
             $passwordDb = $user->getPassword();
@@ -54,7 +54,14 @@ class AuthCookieService implements AuthInterface
 
     public function logout(): void
     {
+        setcookie('logged_in', '', time() - 3600, '/');
         setcookie('user_id', '', time() - 3600, '/');
+        setcookie('user_name', '', time() - 3600, '/');
+        setcookie('user_email', '', time() - 3600, '/');
+
+        unset($_COOKIE['logged_in']);
         unset($_COOKIE['user_id']);
+        unset($_COOKIE['user_name']);
+        unset($_COOKIE['user_email']);
     }
 }

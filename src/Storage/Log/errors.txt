@@ -5,3 +5,603 @@ Line:40
 Date29.04.2026 07:56:36
 
 
+Message:Для оформления заказа сумма корзины должна быть больше 1000
+File:/var/www/html/src/Service/OrderService.php
+Line:33
+Date13.05.2026 10:46:28
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:04:38
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:05:40
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:06:27
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:06:30
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:06:35
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:08:37
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:08:50
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 05:11:37
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 07:28:07
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 07:33:19
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 07:36:24
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date15.05.2026 07:36:34
+
+
+Message:SQLSTATE[08006] [7] connection to server at "postgres_db" (172.18.0.3), port 5432 failed: fe_sendauth: no password supplied
+File:/var/www/html/src/Model/Model.php
+Line:23
+Date17.05.2026 04:43:01
+
+
+Message:SQLSTATE[08006] [7] connection to server at "postgres_db" (172.18.0.3), port 5432 failed: fe_sendauth: no password supplied
+File:/var/www/html/src/Model/Model.php
+Line:23
+Date17.05.2026 04:46:06
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date17.05.2026 10:44:18
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date17.05.2026 10:47:38
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date17.05.2026 10:47:39
+
+
+Message:Class "Model\PDO" not found
+File:/var/www/html/src/Model/User.php
+Line:57
+Date17.05.2026 10:47:41
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:35
+Date17.05.2026 10:49:44
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:35
+Date17.05.2026 10:49:50
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:35
+Date17.05.2026 10:49:53
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:35
+Date17.05.2026 10:49:57
+
+
+Message:DTO\UserProductDTO::__construct(): Argument #7 ($price) must be of type float, string given, called in /var/www/html/src/Model/UserProduct.php on line 44
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:9
+Date17.05.2026 10:51:07
+
+
+Message:DTO\UserProductDTO::__construct(): Argument #7 ($price) must be of type float, string given, called in /var/www/html/src/Model/UserProduct.php on line 44
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:9
+Date17.05.2026 10:51:24
+
+
+Message:DTO\UserProductDTO::__construct(): Argument #7 ($price) must be of type float, string given, called in /var/www/html/src/Model/UserProduct.php on line 44
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:9
+Date17.05.2026 10:52:04
+
+
+Message:DTO\UserProductDTO::__construct(): Argument #7 ($price) must be of type float, string given, called in /var/www/html/src/Model/UserProduct.php on line 44
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:9
+Date17.05.2026 10:52:18
+
+
+Message:DTO\UserProductDTO::__construct(): Argument #7 ($price) must be of type float, string given, called in /var/www/html/src/Model/UserProduct.php on line 44
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:9
+Date17.05.2026 10:52:23
+
+
+Message:DTO\UserProductDTO::__construct(): Argument #7 ($price) must be of type float, string given, called in /var/www/html/src/Model/UserProduct.php on line 44
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:9
+Date17.05.2026 10:52:26
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date17.05.2026 10:53:14
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date17.05.2026 11:15:28
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:44
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:48
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:49
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:49
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:49
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:49
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:08:55
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 01:46:42
+
+
+Message:Model\Product::getById(): Argument #1 ($product_id) must be of type int, string given, called in /var/www/html/src/Controllers/ReviewController.php on line 35
+File:/var/www/html/src/Model/Product.php
+Line:43
+Date18.05.2026 01:54:56
+
+
+Message:Model\Review::getReviewsByProductId(): Argument #1 ($product_id) must be of type int, string given, called in /var/www/html/src/Controllers/ReviewController.php on line 37
+File:/var/www/html/src/Model/Review.php
+Line:36
+Date18.05.2026 01:58:54
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:03
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:05
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:05
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:05
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:05
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:06
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:07
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:07
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:07
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:10
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:10
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:11
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:03:11
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:05:12
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:05:13
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:05:13
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:15
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:16
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:16
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:17
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:17
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:17
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:06:17
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:41
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:42
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:43
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:43
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:43
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:43
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:07:43
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:08:20
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:14:44
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:14:45
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:14:45
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:14:45
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:14:45
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:14:46
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:16:21
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:16:23
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:16:24
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:16:24
+
+
+Message:Request\ProductIdRequest::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/Request/ProductIdRequest.php
+Line:15
+Date18.05.2026 02:16:24
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:35
+Date18.05.2026 06:38:35
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:21
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:22
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:23
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:24
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:24
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:29
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:30
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:30
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:30
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:44:45
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:45:08
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:45:18
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:45:19
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:45:19
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:45:19
+
+
+Message:Cannot assign string to property Model\Product::$price of type int
+File:/var/www/html/src/Model/Product.php
+Line:57
+Date18.05.2026 06:45:20
+
+

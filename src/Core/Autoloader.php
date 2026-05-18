@@ -15,13 +15,13 @@ class Autoloader
                 return true;
             }
             return false;
-        };
+        }; // присванивание анонимной фун-ии
 
         spl_autoload_register($autoload);
     }
 }
 
-;
+
 
 
 

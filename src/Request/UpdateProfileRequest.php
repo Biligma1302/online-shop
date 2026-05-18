@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 class UpdateProfileRequest
@@ -18,7 +20,7 @@ class UpdateProfileRequest
         return $this->data['email'];
     }
 
-    function validate(): array
+   public function validate(): array
     {
         $errors = [];
 

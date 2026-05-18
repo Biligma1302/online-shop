@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 use DTO\OrderHistoryDTO;
@@ -25,7 +27,7 @@ class Order extends Model
         string $comment,
         string $address,
         int $user_id
-    ) {
+    ): int {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
             "INSERT INTO {$tableName} (contact_name, contact_phone, comment, address, user_id) 

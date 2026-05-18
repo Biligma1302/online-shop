@@ -4,6 +4,7 @@ namespace Core;
 
 use Service\Logger\LoggerServiceFile;
 use Service\Logger\LoggerServiceBd;
+
 use Throwable;
 
 
@@ -27,7 +28,7 @@ class App
 
                 $requestClass = $handler['request'];
 
-                $logger = LoggerServiceBd::class;
+                $logger = LoggerServiceFile::class;
 
                 try {
                     if ($requestClass !== null) {
@@ -51,7 +52,7 @@ class App
     }
 
 
-    public function get(string $route, string $className, string $method, string $requestClass = null)
+    public function get(string $route, string $className, string $method, ?string $requestClass = null)
     {
         $this->routes[$route]['GET'] = [
             'class' => $className,
@@ -60,7 +61,7 @@ class App
         ];
     }
 
-    public function post(string $route, string $className, string $method, string $requestClass = null)
+    public function post(string $route, string $className, string $method, ?string $requestClass = null)
     {
         $this->routes[$route]['POST'] = [
             'class' => $className,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
 use DTO\AuthDTO;
@@ -21,7 +23,6 @@ class UserController extends Controller
         $this->userService = new UserService();
     }
 
-
     public function getRegistrateForm()
     {
         if ($this->authService->check()) {
@@ -42,22 +43,23 @@ class UserController extends Controller
             );
 
             $this->userService->registerUser($dto);
+            header("Location: /login");
+            exit();
         }
-        require_once '../Views/login_form.php';
+        require_once '../Views/registration_form.php';
     }
 
 
     public function getLogin()
     {
-        $this->authService->check();
-
-        if (isset($_SESSION['logged_in'])) {
+        if ($this->authService->check()) {
             header("Location: /catalog");
             exit();
         } else {
             require_once '../Views/login_form.php';
         }
     }
+
 
     public function login(LoginRequest $request)
     {
@@ -82,7 +84,7 @@ class UserController extends Controller
         if ($this->authService->check()) {
             $user = $this->authService->getCurrentUser();
 
-            $user = User::getByID($user->getId());
+            $user = User::getById($user->getId());
 
             require_once '../Views/profile.php';
         } else {
@@ -91,9 +93,7 @@ class UserController extends Controller
         }
     }
 
-
     public function editProfile()
-
     {
         $user = $this->authService->getCurrentUser();
         require_once '../Views/edit_profile_form.php';
@@ -121,10 +121,16 @@ class UserController extends Controller
 
                 header("Location: /profile");
                 exit;
+            } else {
+                require_once '../Views/edit_profile_form.php';
             }
+        } else {
             require_once '../Views/edit_profile_form.php';
         }
     }
+
+
+
 
     public function logout()
     {

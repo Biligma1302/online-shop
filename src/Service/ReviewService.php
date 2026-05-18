@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 use DTO\ReviewCreateDTO;
-use Model\Reviews;
+
+use Model\Review;
 
 class ReviewService
 {
 
-    public function createReviews(reviewCreateDTO $dto)
+    public function createReviews(ReviewCreateDTO $dto): void
     {
-        Reviews::create
+        Review::create
         (
             $dto->getUser()->getId(),
             $dto->getProductId(),

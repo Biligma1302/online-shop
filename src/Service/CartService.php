@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 use DTO\AddProductDTO;
 use DTO\DecreaseProductDTO;
-use Model\Product;
+
 use Model\UserProduct;
+
 use Service\Auth\AuthInterface;
 use Service\Auth\AuthSessionService;
 
 class CartService
 {
     private AuthInterface $authService;
-
 
     public function __construct()
     {
@@ -43,7 +45,7 @@ class CartService
     }
 
 
-    public function addProduct(AddProductDTO $dto)
+    public function addProduct(AddProductDTO $dto): void
     {
         $user = $this->authService->getCurrentUser();
         $data = UserProduct::getUserProduct($dto->getProductId(), $user->getId());
@@ -67,7 +69,7 @@ class CartService
     }
 
 
-    public function decreaseProduct(DecreaseProductDTO $dto)
+    public function decreaseProduct(DecreaseProductDTO $dto): void
     {
         $user = $this->authService->getCurrentUser();
         $data = UserProduct::getUserProduct($dto->getProductId(), $user->getId());
@@ -82,7 +84,15 @@ class CartService
         }
     }
 
-    public function getSum(): int
+    public function getProductAmount(int $productId): int
+     {
+         $user = $this->authService->getCurrentUser();
+         if ($user === null) { return 0; }
+         $data = UserProduct::getUserProduct($productId, $user->getId());
+         return $data ? $data->getAmount() : 0;
+     }
+
+    public function getSum(): float
     {
         $total = 0;
         foreach ($this->getUserProducts() as $userProduct) {

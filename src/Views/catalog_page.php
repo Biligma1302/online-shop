@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог товаров</title>
 
-    <link href="https://googleapis.com" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header class="main-header">
     <nav class="nav-container">
-
         <a href="/profile" class="nav-link profile-link">
             🏠 👤 Личный кабинет (<?= $_SESSION['user_name'] ?? 'Гость' ?>)
-        </a>
         </a>
         <a href="../cart" class="nav-link">🛒 Корзина (<?= number_format($totalSum ?? 0, 0, '.', ' ') ?> ₽)</a>
     </nav>
@@ -24,98 +23,82 @@
 <div class="container">
     <h3>Catalog</h3>
     <div class="card-deck">
-        <?php foreach ($products as $product): ?>
-            <?php $productId = $product->getId(); ?>
+        <?php
+        foreach ($products as $product): ?>
+            <?php
+            $productId = $product->getId(); ?>
             <div class="card text-center">
-                <div class="card-header">Hit!</div>
 
-                <img class="card-img-top" src="<?= htmlspecialchars($product->getImageUrl()); ?>" alt="<?= htmlspecialchars($product->getName()); ?>">
+
+                <img class="card-img-top" src="<?= htmlspecialchars($product->getImageUrl()); ?>"
+                     alt="<?= htmlspecialchars($product->getName()); ?>">
 
                 <div class="card-body">
                     <p class="card-text text-muted"><?= htmlspecialchars($product->getName()); ?></p>
                     <h5 class="card-title"><?= htmlspecialchars($product->getDescription()); ?></h5>
 
                     <div class="controls-wrapper">
-                        <form class="ajax-form" action="/add-product" method="POST" style="display:inline;">
+
+                        <form class="ajax-form" action="/add-product" method="POST">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
-                            <button type="submit" class="registerbtn">+</button>
+                            <button type="submit" class="registerbtn btn-plus">+</button>
                         </form>
 
                         <span class="amount-badge">
-                            <?= isset($user_products[$productId]) ? (int)$user_products[$productId]->getAmount() : 0; ?>
-                        </span>
-
-                        <form class="ajax-form" action="/decrease-product" method="POST" style="display:inline;">
+        <?= isset($user_products[$productId]) ? (int)$user_products[$productId]->getAmount() : 0; ?>
+    </span>
+                        <form class="ajax-form" action="/decrease-product" method="POST">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
-                            <button type="submit" class="registerbtn">-</button>
+                            <button type="submit" class="registerbtn btn-minus">-</button>
                         </form>
                     </div>
 
-
                     <div style="margin-top: 15px;">
-                        <a href="/reviews?product_id=<?= $productId; ?>" class="btn-open" style="display: block; text-decoration: none; text-align: center; width: 100%;">
-                            Открыть отзывы
+                        <a href="/reviews?product_id=<?= $productId; ?>" class="btn-open">
+                            💬 Открыть отзывы
                         </a>
                     </div>
                 </div>
 
-                <div class="card-footer signin">
-                    <p>Already have an account? <a href="#">Sign in</a>.</p>
-                </div>
             </div>
-        <?php endforeach; ?>
+        <?php
+        endforeach; ?>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.ajax-form').submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    var badge = form.closest('.controls-wrapper').find('.amount-badge');
+                    badge.text(response.newAmount);
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) { window.location.href = '/login'; }
+                    else { console.error("Ошибка:", xhr.responseText); }
+                }
+            });
+        });
+    });
+</script>
 </body>
-<!---->
-<!--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
-<!---->
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        $('.ajax-form').submit(function () {-->
-<!---->
-<!--            $.ajax({-->
-<!--                type: "POST",-->
-<!--                url:  "/add-product",-->
-<!--                data: $(this).serialize(),-->
-<!--                dataType: 'json',-->
-<!--                success: function(response) {-->
-<!--                    console.log('test');-->
-<!--                },-->
-<!--                error: function(xhr, status, error) {-->
-<!--                    console.error("Ошибка при добавлении товара:", error);-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!---->
-<!--        $('.ajax-form').submit(function () {-->
-<!---->
-<!--            $.ajax({-->
-<!--                type: "POST",-->
-<!--                url:  "/decrease-product",-->
-<!--                data: $(this).serialize(),-->
-<!--                dataType: 'json',-->
-<!--                success: function(response) {-->
-<!--                    console.log('test1');-->
-<!--                },-->
-<!--                error: function(xhr, status, error) {-->
-<!--                    console.error("Ошибка при удалении товара:", error);-->
-<!--                    }-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 
-
-</html>
 <style>
-
     body {
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
-        display: flex;
-        justify-content: center;
-        background-color: #f5f5f5;
+        background-color: #f4f6f9;
         margin: 0;
         padding: 20px;
     }
@@ -125,22 +108,18 @@
         color: inherit;
     }
 
-    a:hover {
-        text-decoration: underline;
-    }
-
     h3 {
-        line-height: 3em;
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-bottom: 20px;
+        font-size: 1.8em;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: #212529;
     }
 
     /* Шапка */
     .main-header {
         width: 100%;
         background: white;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         position: fixed;
         top: 0;
         left: 0;
@@ -157,143 +136,158 @@
     }
 
     .nav-link {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 500;
+        transition: color 0.2s;
     }
 
     .profile-link {
-        background: #f0f0f0;
-        padding: 8px 15px;
-        border-radius: 20px;
+        background: #f1f3f5;
+        padding: 8px 16px;
+        border-radius: 30px;
     }
 
-    /* Основной контейнер */
+    .profile-link:hover {
+        background: #e9ecef;
+    }
+
+    /* Контейнер каталога */
     .container {
         max-width: 1200px;
         width: 100%;
-        margin: 80px auto 0;
+        margin: 90px auto 0;
         padding: 0 20px;
+        box-sizing: border-box;
     }
 
-    /* Сетка карточек - 4 штуки в ряд */
+    /* Сетка */
     .card-deck {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 25px;
-        margin-top: 20px;
     }
 
-    /* Карточка товара */
+    /* Карточка */
     .card {
         background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,.1);
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         overflow: hidden;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
         display: flex;
         flex-direction: column;
         height: 100%;
+        border: 1px solid #eef2f5;
     }
 
     .card:hover {
-        transform: scale(1.05);
-    }
-
-    .card-header {
-        font-size: 13px;
-        color: darkgrey;
-        background-color: transparent;
-        padding: 10px;
-        text-align: center;
-        font-weight: bold;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
 
     .card-img-top {
         object-fit: cover;
-        height: 180px;
+        height: 200px;
         width: 100%;
-        background: #f5f5f5;
+        background: #f8f9fa;
+        border-radius: 14px 14px 0 0;
     }
 
     .card-body {
         flex-grow: 1;
-        padding: 15px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
     }
 
     .card-text.text-muted {
         font-size: 14px;
-        margin-bottom: 10px;
-        color: #666;
+        margin: 0 0 8px 0;
+        color: #6c757d;
     }
 
     .card-title {
         font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #333;
+        font-weight: 600;
+        margin: 0 0 20px 0;
+        color: #212529;
+        line-height: 1.4;
     }
 
-    /* Форма */
-    .card-body form {
+    .controls-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
         margin-top: auto;
+        padding-bottom: 18px;
     }
 
-    .card-body form .container {
-        margin: 0;
-        padding: 0;
-        max-width: 100%;
-    }
-
-    label b {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 14px;
-    }
-
-    input[type="text"] {
-        width: 100%;
-        padding: 8px;
-        margin: 5px 0 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-
-    hr {
-        display: none;
-    }
-
+    /* Общие стили круглых кнопок */
     .registerbtn {
-        width: 100%;
-        background-color: #007bff;
-        color: white;
-        padding: 10px;
+        width: 42px;
+        height: 42px;
         border: none;
-        border-radius: 4px;
+        border-radius: 50%;
         cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-        transition: background 0.3s;
+        font-size: 22px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .registerbtn:hover {
-        background-color: #0056b3;
+    .btn-minus:hover {
+        background-color: #e01b22 !important;
+        transform: scale(1.08);
+        box-shadow: 0 6px 14px rgba(255, 77, 79, 0.4);
     }
 
-    /* Подпись внизу карточки */
-    .signin {
+
+    .btn-plus:hover {
+        background-color: #006ddb !important;
+        transform: scale(1.08);
+        box-shadow: 0 6px 14px rgba(24, 144, 255, 0.4);
+    }
+
+    .amount-badge {
+        font-size: 18px;
+        font-weight: 700;
+        color: #212529;
+        min-width: 24px;
         text-align: center;
-        font-size: 12px;
-        padding: 10px;
-        border-top: 1px solid #eee;
-        margin-top: auto;
     }
 
-    .signin a {
-        color: #007bff;
+    /* Кнопка "Открыть отзывы" — Фиолетовый индиго */
+    .btn-open {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #6366f1;
+        color: #ffffff;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        text-decoration: none;
+    }
+
+    .btn-open:hover {
+        background-color: #4f46e5;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-open:active {
+        transform: translateY(1px);
     }
 
     /* Адаптивность */
@@ -313,14 +307,5 @@
             gap: 10px;
         }
     }
-
-    @media (max-width: 480px) {
-        .card-deck {
-            grid-template-columns: 1fr;
-        }
-
-        .container {
-            padding: 0 10px;
-        }
-    }
 </style>
+</html>

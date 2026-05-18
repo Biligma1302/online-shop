@@ -25,7 +25,7 @@ class AuthSessionService implements AuthInterface
         $this->startSession();
         if ($this->check()) {
             $user_id = $_SESSION['user_id'];
-            $user = $this->userModel->getByID($user_id);
+            $user = $this->userModel->getById($user_id);
             return $user;
         } else {
             return null;
@@ -38,7 +38,7 @@ class AuthSessionService implements AuthInterface
 
         $user = $this->userModel->getByUsername($dto->getUsername());
 
-        if ($user === false) {
+        if ($user === null) {
             return false;
         } else {
             $passwordDb = $user->getPassword();
@@ -62,7 +62,7 @@ class AuthSessionService implements AuthInterface
         session_destroy();
     }
 
-    private function startSession()
+    private function startSession(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();

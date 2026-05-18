@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 class RegistrationRequest
@@ -54,7 +56,7 @@ class RegistrationRequest
             $password = $this->data['psw'];
 
             if (strlen($password) < 5) {
-                $errors['psw'] = 'Пароль должен содержать минимум 6 символов';
+                $errors['psw'] = 'Пароль должен содержать минимум 5 символов';
             }
 
             if ($password !== ($this->data['psw-repeat'])) {

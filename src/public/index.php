@@ -1,5 +1,14 @@
 <?php
 
+$envFile = __DIR__ . '/../../.env';
+if (file_exists($envFile)) {
+    foreach (parse_ini_file($envFile) as $key => $value)
+    {
+        putenv("$key=$value");
+    }
+}
+
+
 use Controllers\CartController;
 use Controllers\OrderController;
 use Controllers\ProductController;
@@ -39,6 +48,5 @@ $app->get('/reviews', ReviewController::class, 'getReviews');
 $app->post('/reviews-post', ReviewController::class, 'postReviews', ReviewCreateRequest::class);
 $app->get('/logout', UserController::class, 'logout');
 $app->run();
-
 
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class OrderProduct extends Model
@@ -23,7 +25,7 @@ class OrderProduct extends Model
         $stmt->execute(['orderId' => $order_id, 'productId' => $product_id, 'amount' => $amount]);
     }
 
-    public static function getAllByOrderId(int $order_id)
+    public static function getAllByOrderId(int $order_id): array
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName} WHERE order_id = :order_id");

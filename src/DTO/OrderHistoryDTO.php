@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DTO;
 
 class OrderHistoryDTO
@@ -10,7 +12,6 @@ class OrderHistoryDTO
         private string $contact_phone,
         private string $address,
         private string $comment,
-
         private string $product_name,
         private float $price,
         private int $amount,

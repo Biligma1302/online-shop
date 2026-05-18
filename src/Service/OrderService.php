@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service;
 
 use DTO\OrderCreateDTO;
-use DTO\UserProductDTO;
-use DTO\OrderHistoryDTO;
+
 use Model\Order;
 use Model\OrderProduct;
-use Model\Product;
 use Model\UserProduct;
+
 use Service\Auth\AuthInterface;
 use Service\Auth\AuthSessionService;
-use Service\CartService;
 
 
 class OrderService
@@ -26,7 +26,7 @@ class OrderService
         $this->cartService = new CartService();
     }
 
-    public function processCheckout(OrderCreateDTO $data)
+    public function processCheckout(OrderCreateDTO $data): void
     {
         $sum = $this->cartService->getSum();
         if ($sum < 1000) {
@@ -34,8 +34,7 @@ class OrderService
         }
 
         $user = $this->authService->getCurrentUser();
-        $orderId = Order::create
-        (
+        $orderId = Order::create(
             $data->getContactName(),
             $data->getContactPhone(),
             $data->getComment(),

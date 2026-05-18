@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Request;
 
 class LoginRequest
@@ -8,12 +10,12 @@ class LoginRequest
     {
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->data['username'];
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->data['password'];
     }

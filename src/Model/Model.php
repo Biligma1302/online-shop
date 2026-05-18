@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 use PDO;
@@ -9,10 +11,29 @@ abstract class Model
     protected static PDO $PDO;
 
     public static function getPDO(): PDO
+
     {
-        static::$PDO = new PDO('pgsql:host=postgres_db; port=5432;dbname=dugarovadb', 'dugarova', 'Dugarova1302');
+        if (!isset(static::$PDO)) {
+            $host = getenv('DB_HOST') ?: 'postgres_db';
+            $port = getenv('DB_PORT') ?: '5432';
+            $name = getenv('DB_NAME') ?: 'dugarovadb';
+            $user = getenv('DB_USER') ?: 'dugarova';
+            $pass = getenv('DB_PASS') ?: '';
+
+            static::$PDO = new PDO(
+                "pgsql:host=$host;port=$port;dbname=$name", $user, $pass,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]
+            );
+        }
         return static::$PDO;
     }
 
-    abstract static protected function getTableName(): string;
+    abstract protected static function getTableName(): string;
 }
+
+
+
+

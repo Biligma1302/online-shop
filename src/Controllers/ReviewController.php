@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
 use DTO\ReviewCreateDTO;
 use Model\Product;
-use Model\Reviews;
+use Model\Review;
 use Request\ReviewCreateRequest;
 use Service\ReviewService;
 
@@ -20,22 +22,38 @@ class ReviewController extends Controller
 
     public function getReviews()
     {
+        if (!isset($_GET['product_id'])) {
+            header('Location: /catalog');
+            exit;
+        }
+
         $product_id = $_GET['product_id'];
+
         if ($product_id) {
-            $user = $this->authService->getCurrentUser();
-            $product = Product::getById($product_id);
-            if ($product) {
-                $reviewsList = Reviews::getReviewsByProductId($product_id);
-                require_once '../Views/reviews_page.php';
+            if ($this->authService->check()) {
+                $user = $this->authService->getCurrentUser();
+                $product = Product::getById((int)$product_id);
+                if ($product) {
+                    $reviewsList = Review::getReviewsByProductId((int)$product_id);
+                    require_once '../Views/reviews_page.php';
+                } else {
+                    header('Location: /catalog');
+                    exit;
+                }
             } else {
-                header('Location: /catalog');
+                header('Location: /login');
                 exit;
             }
         }
     }
 
-    public function PostReviews(ReviewCreateRequest $request)
+    public function postReviews(ReviewCreateRequest $request)
     {
+        if (!$this->authService->check()) {
+            header("Location: /login");
+            exit;
+        }
+
         $user = $this->authService->getCurrentUser();
 
         $errors = $request->validate();
@@ -50,7 +68,7 @@ class ReviewController extends Controller
 
             $this->reviewService->createReviews($dto);
 
-            header("Location:/reviews?product_id= " . $request->getProductId());
+            header("Location: /reviews?product_id=" . $request->getProductId());
             exit;
         } else {
             $_SESSION['errors'] = $errors;

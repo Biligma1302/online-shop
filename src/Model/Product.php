@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class Product extends Model
@@ -16,7 +18,7 @@ class Product extends Model
     }
 
 
-    public static function getProducts()
+    public static function getProducts(): array
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->query("SELECT * FROM {$tableName}");
@@ -30,7 +32,7 @@ class Product extends Model
             $obj->id = $product['id'];
             $obj->name = $product['name'];
             $obj->description = $product['description'];
-            $obj->price = $product['price'];
+            $obj->price = (int) $product['price'];
             $obj->image_url = $product['image_url'];
 
             $result[] = $obj;
@@ -48,22 +50,22 @@ class Product extends Model
         if ($product === false) {
             return null;
         }
-        $obj = new self;
+        $obj = new self();
         $obj->id = $product['id'];
         $obj->name = $product['name'];
         $obj->description = $product['description'];
-        $obj->price = $product['price'];
+        $obj->price = (int)$product['price'];
         $obj->image_url = $product['image_url'];
 
         return $obj;
     }
 
-    public static function getFull($userProducts): array
+    public static function getFull(array $userProducts): array
     {
         $products = [];
 
         foreach ($userProducts as $userProduct) {
-            $product = static::getPDO()->getById($userProduct->getProductId());
+            $product = static::getById($userProduct->getProductId());
 
             if ($product === null) {
                 continue;

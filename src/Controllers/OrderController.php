@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Controllers;
 
-use Service\OrderService;
 use DTO\OrderCreateDTO;
+
 use Request\OrderCreateRequest;
+
+use Service\OrderService;
 
 
 class OrderController extends Controller
@@ -20,13 +24,17 @@ class OrderController extends Controller
 
     public function getCheckoutForm()
     {
+        if (!$this->authService->check()) {
+            header("Location: /login");
+            exit();
+        }
         require_once './../Views/order_form.php';
     }
 
     public function handleCheckout(OrderCreateRequest $request)
     {
         if (!$this->authService->check()) {
-            header("Location:/Login");
+            header("Location: /login");
             exit();
         }
 
@@ -56,7 +64,7 @@ class OrderController extends Controller
     public function getAllOrders()
     {
         if (!$this->authService->check()) {
-            header("Location:/Login");
+            header("Location: /login");
             exit();
         }
 

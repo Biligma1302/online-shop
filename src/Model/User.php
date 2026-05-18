@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 class User extends Model
@@ -33,25 +35,26 @@ class User extends Model
         return $obj;
     }
 
-    public static function updateEmailById(string $email, int $user_id)
+    public static function updateEmailById(string $email, int $user_id): void
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("UPDATE {$tableName}  SET email = :email WHERE id = $user_id");
-        $stmt->execute([':email' => $email]);
+        $stmt = static::getPDO()->prepare("UPDATE {$tableName}  SET email = :email WHERE id = :user_id");
+        $stmt->execute([':email' => $email, ':user_id' => $user_id]);
     }
 
-    public static function updateNameById(string $name, int $user_id)
+    public static function updateNameById(string $name, int $user_id): void
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->prepare("UPDATE {$tableName}  SET name = :name WHERE id = $user_id");
-        $stmt->execute([':name' => $name]);
+        $stmt = static::getPDO()->prepare("UPDATE {$tableName}  SET name = :name WHERE id = :user_id");
+        $stmt->execute([':name' => $name, ':user_id' => $user_id]);
     }
 
     public static function getById(int $user_id): self|null
     {
         $tableName = static::getTableName();
-        $stmt = static::getPDO()->query("SELECT * FROM {$tableName} WHERE id = $user_id");
-        $result = $stmt->fetch();
+        $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName} WHERE id = :user_id");
+        $stmt->execute([':user_id' => $user_id]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if ($result === false) {
             return null;

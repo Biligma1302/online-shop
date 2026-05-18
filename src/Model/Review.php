@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
-class Reviews extends Model
+class Review extends Model
 {
-    private $rating;
-    private $comment;
-    private $user_id;
-    private $product_id;
-    private $created_at;
+    private int $rating;
+    private string $comment;
+    private int $user_id;
+    private int $product_id;
+    private ?string $created_at;
 
     protected static function getTableName(): string
     {
@@ -54,27 +56,27 @@ class Reviews extends Model
     }
 
 
-    public function getRating()
+    public function getRating(): int
     {
         return $this->rating;
     }
 
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getProductId()
+    public function getProductId(): int
     {
         return $this->product_id;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?string
     {
         return $this->created_at;
     }
