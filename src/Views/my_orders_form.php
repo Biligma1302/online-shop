@@ -32,15 +32,16 @@
             <?php $currentOrderId = $order->getOrderId(); ?>
         <?php endif; ?>
 
-            <!-- Список товаров (выводится для каждой строки из DTO) -->
+            <?php foreach ($order->getProducts() as $product): ?>
             <li>
-                <?php echo $order->getProductName(); ?> —
-                <?php echo $order->getAmount(); ?> шт.
-                (по <?php echo $order->getPrice(); ?> руб.)
+                <?php echo $product->getProductName(); ?> —
+                <?php echo $product->getAmount(); ?> шт.
+                (по <?php echo $product->getPrice(); ?> руб.)
             </li>
+        <?php endforeach; ?>
 
         <?php endforeach; ?>
-        </ul> <!-- Закрываем последний список -->
+        </ul>
         </div></div><hr>
     <?php endif; ?>
 

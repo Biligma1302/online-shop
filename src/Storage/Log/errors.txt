@@ -601,3 +601,99 @@ Date18.05.2026 06:45:19
 
 
 
+Message:Call to a member function getAmount() on array
+File:/var/www/html/src/Service/CartService.php
+Line:36
+Date24.05.2026 06:33:03
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:28
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:29
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:29
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:30
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:30
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:30
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:39
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:45
+
+
+Message:Call to undefined method DTO\UserProductDTO::getName()
+File:/var/www/html/src/Service/CartService.php
+Line:37
+Date24.05.2026 07:25:46
+
+
+Message:DTO\ProductDTO::getImageUrl(): Return value must be of type string, null returned
+File:/var/www/html/src/DTO/ProductDTO.php
+Line:34
+Date24.05.2026 07:47:37
+
+
+Message:DTO\UserProductDTO::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:40
+Date24.05.2026 07:50:02
+
+
+Message:DTO\UserProductDTO::getProductId(): Return value must be of type int, null returned
+File:/var/www/html/src/DTO/UserProductDTO.php
+Line:40
+Date24.05.2026 07:50:06
+
+
+Message:Call to undefined method DTO\OrderHistoryDTO::getProductName()
+File:/var/www/html/src/Views/My_orders_form.php
+Line:37
+Date24.05.2026 08:47:31
+
+
+Message:Call to undefined method DTO\OrderHistoryDTO::getProductName()
+File:/var/www/html/src/Views/My_orders_form.php
+Line:37
+Date24.05.2026 08:49:09
+
+
+Message:Call to undefined method DTO\OrderHistoryDTO::getProductName()
+File:/var/www/html/src/Views/My_orders_form.php
+Line:37
+Date24.05.2026 08:49:41
+
+

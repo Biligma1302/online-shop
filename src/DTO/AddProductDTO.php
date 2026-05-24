@@ -7,14 +7,14 @@ namespace DTO;
 class AddProductDTO
 {
     public function __construct(
-        private int $product_id,
+        private int $productId,
         private int $amount,
     ) {
     }
 
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     public function getAmount(): int

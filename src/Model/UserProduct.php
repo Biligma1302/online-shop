@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Model;
 
+use DTO\ProductDTO;
 use DTO\UserProductDTO;
 
 class UserProduct extends Model
@@ -39,17 +40,21 @@ class UserProduct extends Model
         $userProducts = $stmt->fetchAll();
         $user_products = [];
         foreach ($userProducts as $userProduct) {
-            $user_products[] = new UserProductDTO(
-
-                $userProduct ['up_id'],
-                $userProduct ['user_id'],
-                $userProduct ['product_id'],
-                $userProduct ['amount'],
-                $userProduct ['name'],
-                $userProduct ['description'],
+            $userProductDTO = new UserProductDTO(
+                (int)$userProduct['up_id'],
+                (int)$userProduct['user_id'],
+                (int)$userProduct['product_id'],
+                (int)$userProduct['amount']
+            );
+            $productDTO = new ProductDTO(
+                $userProduct['name'],
+                $userProduct['description'],
                 (float)$userProduct['price'],
                 $userProduct['image_url']
             );
+            $userProductDTO->setProduct($productDTO);
+
+            $user_products[] = $userProductDTO;
         }
         return $user_products;
     }

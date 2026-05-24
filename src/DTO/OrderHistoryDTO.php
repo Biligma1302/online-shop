@@ -6,32 +6,39 @@ namespace DTO;
 
 class OrderHistoryDTO
 {
+    private array $products = [];
     public function __construct(
-        private int $order_id,
-        private string $contact_name,
-        private string $contact_phone,
+        private int $orderId,
+        private string $contactName,
+        private string $contactPhone,
         private string $address,
         private string $comment,
-        private string $product_name,
-        private float $price,
-        private int $amount,
-        private string $image_url,
     ) {
+    }
+
+    public function addProduct(OrderProductDTO $product): void
+    {
+    $this->products[] = $product;
     }
 
     public function getOrderId(): int
     {
-        return $this->order_id;
+        return $this->orderId;
+    }
+
+    public function getProducts(): array
+    {
+        return $this->products;
     }
 
     public function getContactName(): string
     {
-        return $this->contact_name;
+        return $this->contactName;
     }
 
     public function getContactPhone(): string
     {
-        return $this->contact_phone;
+        return $this->contactPhone;
     }
 
     public function getAddress(): string
@@ -42,30 +49,5 @@ class OrderHistoryDTO
     public function getComment(): string
     {
         return $this->comment;
-    }
-
-    public function getProductName(): string
-    {
-        return $this->product_name;
-    }
-
-    public function getPrice(): float
-    {
-        return $this->price;
-    }
-
-    public function getAmount(): int
-    {
-        return $this->amount;
-    }
-
-    public function getImageUrl(): string
-    {
-        return $this->image_url;
-    }
-
-    public function getTotalSum(): float
-    {
-        return $this->price * $this->amount;
     }
 }

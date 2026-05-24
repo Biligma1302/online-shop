@@ -6,16 +6,23 @@ namespace DTO;
 
 class UserProductDTO
 {
+    private ?ProductDTO $product = null;
     public function __construct(
         private int $id,
-        private int $user_id,
-        private int $product_id,
+        private int $userId,
+        private int $productId,
         private int $amount,
-        private string $name,
-        private string $description,
-        private float $price,
-        private string $image_url
     ) {
+    }
+
+    public function setProduct(ProductDTO $product): void
+    {
+        $this->product = $product;
+    }
+
+    public function getProduct(): ?ProductDTO
+    {
+        return $this->product;
     }
 
     public function getId(): int
@@ -25,36 +32,16 @@ class UserProductDTO
 
     public function getUserId(): int
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     public function getAmount(): int
     {
         return $this->amount;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function getPrice(): float
-    {
-        return $this->price;
-    }
-
-    public function getImageUrl(): string
-    {
-        return $this->image_url;
     }
 }

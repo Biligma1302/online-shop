@@ -32,11 +32,12 @@ class CartService
         $products = [];
 
         foreach ($userProducts as $userProduct) {
+            $product = $userProduct->getProduct();
             $products[] = [
                 'amount' => $userProduct->getAmount(),
-                'name' => $userProduct->getName(),
-                'price' => $userProduct->getPrice(),
-                'image' => $userProduct->getImageUrl(),
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+                'image' => $product->getImageUrl(),
                 'productId' => $userProduct->getProductId(),
             ];
         }

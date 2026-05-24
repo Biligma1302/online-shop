@@ -7,12 +7,12 @@ namespace DTO;
 class DecreaseProductDTO
 {
     public function __construct(
-        private int $product_id,
+        private int $productId,
     ) {
     }
 
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 }

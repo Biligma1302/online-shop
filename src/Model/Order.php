@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Model;
 
 use DTO\OrderHistoryDTO;
+use DTO\OrderProductDTO;
 
 class Order extends Model
 {
@@ -71,17 +72,23 @@ class Order extends Model
         $orders = [];
 
         foreach ($userOrders as $userOrder) {
-            $orders[] = new OrderHistoryDTO(
-                (int)$userOrder["order_id"],
-                $userOrder['contact_name'],
-                $userOrder['contact_phone'],
-                $userOrder['address'],
-                $userOrder['comment'],
+            $orderId = (int)$userOrder['order_id'];
+            if (!isset($orders[$orderId])) {
+                $orders[$orderId] = new OrderHistoryDTO(
+                    $orderId,
+                    $userOrder['contact_name'],
+                    $userOrder['contact_phone'],
+                    $userOrder['address'],
+                    $userOrder['comment']
+                );
+            }
+            $orderProductDTO = new OrderProductDTO(
                 $userOrder['product_name'],
-                (float)$userOrder['product_price'],
+                (float) $userOrder['product_price'],
                 (int)$userOrder['amount'],
                 $userOrder['image_url']
             );
+            $orders[$orderId]->addProduct($orderProductDTO);
         }
         return $orders;
     }
