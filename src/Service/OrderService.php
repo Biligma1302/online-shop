@@ -13,7 +13,6 @@ use Model\UserProduct;
 use Service\Auth\AuthInterface;
 use Service\Auth\AuthSessionService;
 
-
 class OrderService
 {
     private AuthInterface $authService;
@@ -61,6 +60,3 @@ class OrderService
         return Order::getAllByUserId($user->getId());
     }
 }
-
-
-

@@ -16,7 +16,7 @@ class OrderProduct extends Model
         return 'order_products';
     }
 
-    public static function create(int $order_id, int $product_id, int $amount)
+    public static function create(int $order_id, int $product_id, int $amount): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -62,5 +62,4 @@ class OrderProduct extends Model
     {
         return $this->amount;
     }
-
 }

@@ -11,7 +11,6 @@ abstract class Model
     protected static PDO $PDO;
 
     public static function getPDO(): PDO
-
     {
         if (!isset(static::$PDO)) {
             $host = getenv('DB_HOST') ?: 'postgres_db';

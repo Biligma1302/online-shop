@@ -17,7 +17,6 @@ class Product extends Model
         return 'products';
     }
 
-
     public static function getProducts(): array
     {
         $tableName = static::getTableName();
@@ -78,7 +77,6 @@ class Product extends Model
                 'productId' => $product->getId(),
             ];
         }
-
         return $products;
     }
 

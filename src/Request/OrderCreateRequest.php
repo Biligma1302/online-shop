@@ -64,4 +64,3 @@ class OrderCreateRequest
         return $errors;
     }
 }
-

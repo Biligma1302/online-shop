@@ -69,6 +69,3 @@ class OrderHistoryDTO
         return $this->price * $this->amount;
     }
 }
-
-
-

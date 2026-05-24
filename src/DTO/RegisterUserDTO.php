@@ -27,5 +27,4 @@ class RegisterUserDTO
     {
         return $this->password;
     }
-
 }

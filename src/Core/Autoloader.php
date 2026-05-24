@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core;
 
 class Autoloader
 {
-    public static function register(string $dir)
+    public static function register(string $dir): void
     {
         $autoload = function (string $classname) use ($dir) {
             $path = str_replace('\\', '/', $classname);
@@ -15,15 +17,8 @@ class Autoloader
                 return true;
             }
             return false;
-        }; // присванивание анонимной фун-ии
+        };
 
         spl_autoload_register($autoload);
     }
 }
-
-
-
-
-
-
-

@@ -13,12 +13,10 @@ class UserProduct extends Model
     private int $user_id;
     private int $amount;
 
-
     protected static function getTableName(): string
     {
         return 'user_products';
     }
-
 
     public static function getAllByUserIdWithProducts(int $user_id): array
     {
@@ -47,7 +45,6 @@ class UserProduct extends Model
                 $userProduct ['user_id'],
                 $userProduct ['product_id'],
                 $userProduct ['amount'],
-
                 $userProduct ['name'],
                 $userProduct ['description'],
                 (float)$userProduct['price'],
@@ -57,8 +54,7 @@ class UserProduct extends Model
         return $user_products;
     }
 
-
-    public static function deleteByUserId(int $user_id)
+    public static function deleteByUserId(int $user_id): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("DELETE FROM  {$tableName} WHERE user_id = :user_id");
@@ -85,7 +81,7 @@ class UserProduct extends Model
         return $obj;
     }
 
-    public static function insertUserProduct(int $user_id, int $product_id, int $amount)
+    public static function insertUserProduct(int $user_id, int $product_id, int $amount): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -94,7 +90,7 @@ class UserProduct extends Model
         $stmt->execute(['user_id' => $user_id, 'product_id' => $product_id, 'amount' => $amount]);
     }
 
-    public static function updateUserProduct(int $amount, int $user_id, int $product_id)
+    public static function updateUserProduct(int $amount, int $user_id, int $product_id): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -103,7 +99,7 @@ class UserProduct extends Model
         $stmt->execute(['amount' => $amount, 'user_id' => $user_id, 'product_id' => $product_id]);
     }
 
-    public static function deleteUserProducts(int $user_id, int $product_id)
+    public static function deleteUserProducts(int $user_id, int $product_id): bool
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -147,7 +143,3 @@ class UserProduct extends Model
         return $this->amount;
     }
 }
-
-
-
-

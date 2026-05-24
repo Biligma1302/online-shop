@@ -8,10 +8,10 @@ use DTO\AddProductDTO;
 use DTO\DecreaseProductDTO;
 
 use Model\Product;
+
 use Request\ProductIdRequest;
 
 use Service\CartService;
-
 
 class CartController extends Controller
 {
@@ -36,7 +36,7 @@ class CartController extends Controller
         }
     }
 
-    public function addProduct(ProductIdRequest $request)
+    public function addProduct(ProductIdRequest $request): void
     {
         $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
 
@@ -50,7 +50,6 @@ class CartController extends Controller
             header("Location: /login");
             exit();
         }
-
         $errors = $request->validateProductId();
 
         if (empty($errors)) {
@@ -61,7 +60,6 @@ class CartController extends Controller
                 $errors['product_id'] = 'Продукт не найден';
             }
         }
-
         if (!empty($errors)) {
             if ($isAjax) {
                 http_response_code(422);
@@ -69,7 +67,6 @@ class CartController extends Controller
                 echo json_encode(['success' => false, 'errors' => $errors]);
                 exit();
             }
-
             $_SESSION['errors'] = $errors;
             header("Location: /cart");
             exit();
@@ -91,8 +88,7 @@ class CartController extends Controller
         exit();
     }
 
-
-    public function decreaseProduct(ProductIdRequest $request)
+    public function decreaseProduct(ProductIdRequest $request): void
     {
         $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
 
@@ -106,7 +102,6 @@ class CartController extends Controller
             header("Location: /login");
             exit();
         }
-
         $errors = $request->validateProductId();
 
         if (empty($errors)) {
@@ -117,7 +112,6 @@ class CartController extends Controller
                 $errors['product_id'] = 'Продукт не найден';
             }
         }
-
         if (!empty($errors)) {
             if ($isAjax) {
                 http_response_code(422);
@@ -125,12 +119,10 @@ class CartController extends Controller
                 echo json_encode(['success' => false, 'errors' => $errors]);
                 exit();
             }
-
             $_SESSION['errors'] = $errors;
             header("Location: /cart");
             exit();
         }
-
         $dto = new DecreaseProductDTO($request->getProductId());
         $this->cartService->decreaseProduct($dto);
 

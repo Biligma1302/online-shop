@@ -21,7 +21,6 @@ class CartService
         $this->authService = new AuthSessionService();
     }
 
-
     public function getUserProducts(): array
     {
         $user = $this->authService->getCurrentUser();
@@ -43,7 +42,6 @@ class CartService
         }
         return $products;
     }
-
 
     public function addProduct(AddProductDTO $dto): void
     {
@@ -67,7 +65,6 @@ class CartService
             );
         }
     }
-
 
     public function decreaseProduct(DecreaseProductDTO $dto): void
     {
@@ -101,9 +98,3 @@ class CartService
         return $total;
     }
 }
-
-
-
-
-
-

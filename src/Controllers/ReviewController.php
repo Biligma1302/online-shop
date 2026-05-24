@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Controllers;
 
 use DTO\ReviewCreateDTO;
+
 use Model\Product;
 use Model\Review;
+
 use Request\ReviewCreateRequest;
+
 use Service\ReviewService;
 
 class ReviewController extends Controller
@@ -20,13 +23,12 @@ class ReviewController extends Controller
         $this->reviewService = new ReviewService();
     }
 
-    public function getReviews()
+    public function getReviews(): void
     {
         if (!isset($_GET['product_id'])) {
             header('Location: /catalog');
             exit;
         }
-
         $product_id = $_GET['product_id'];
 
         if ($product_id) {
@@ -47,7 +49,7 @@ class ReviewController extends Controller
         }
     }
 
-    public function postReviews(ReviewCreateRequest $request)
+    public function postReviews(ReviewCreateRequest $request): void
     {
         if (!$this->authService->check()) {
             header("Location: /login");
@@ -65,7 +67,6 @@ class ReviewController extends Controller
                 $request->getComment(),
                 $request->getRating()
             );
-
             $this->reviewService->createReviews($dto);
 
             header("Location: /reviews?product_id=" . $request->getProductId());

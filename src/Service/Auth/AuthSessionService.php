@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service\Auth;
 
 use DTO\AuthDTO;
+
 use Model\User;
 
 class AuthSessionService implements AuthInterface
@@ -68,5 +71,4 @@ class AuthSessionService implements AuthInterface
             session_start();
         }
     }
-
 }

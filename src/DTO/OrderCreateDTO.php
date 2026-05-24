@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DTO;
 
-
 class OrderCreateDTO
 {
     public function __construct(
@@ -35,5 +34,4 @@ class OrderCreateDTO
     {
         return $this->address;
     }
-
 }

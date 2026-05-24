@@ -599,9 +599,5 @@ Line:57
 Date18.05.2026 06:45:19
 
 
-Message:Cannot assign string to property Model\Product::$price of type int
-File:/var/www/html/src/Model/Product.php
-Line:57
-Date18.05.2026 06:45:20
 
 

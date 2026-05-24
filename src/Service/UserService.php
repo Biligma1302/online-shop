@@ -11,7 +11,6 @@ use Model\User;
 
 use Service\Auth\AuthSessionService;
 
-
 class UserService
 {
     private AuthSessionService $authSessionService;

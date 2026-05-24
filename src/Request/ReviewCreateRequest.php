@@ -37,7 +37,6 @@ class ReviewCreateRequest
         if (empty($this->data['rating'])) {
             $errors['rating'] = 'Поставьте оценку';
         }
-
         return $errors;
     }
 }

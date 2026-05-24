@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core;
 
 use Service\Logger\LoggerServiceFile;
@@ -7,12 +9,11 @@ use Service\Logger\LoggerServiceBd;
 
 use Throwable;
 
-
 class App
 {
     private array $routes = [];
 
-    public function run()
+    public function run(): void
     {
         $requestUri = explode('?', $_SERVER['REQUEST_URI'])[0];
         $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -52,7 +53,7 @@ class App
     }
 
 
-    public function get(string $route, string $className, string $method, ?string $requestClass = null)
+    public function get(string $route, string $className, string $method, ?string $requestClass = null): void
     {
         $this->routes[$route]['GET'] = [
             'class' => $className,
@@ -61,7 +62,7 @@ class App
         ];
     }
 
-    public function post(string $route, string $className, string $method, ?string $requestClass = null)
+    public function post(string $route, string $className, string $method, ?string $requestClass = null): void
     {
         $this->routes[$route]['POST'] = [
             'class' => $className,
@@ -70,7 +71,7 @@ class App
         ];
     }
 
-    public function put(string $route, string $className, string $method)
+    public function put(string $route, string $className, string $method): void
     {
         $this->routes[$route]['PUT'] = [
             'class' => $className,
@@ -78,7 +79,7 @@ class App
         ];
     }
 
-    public function delete(string $route, string $className, string $method)
+    public function delete(string $route, string $className, string $method): void
     {
         $this->routes[$route]['DELETE'] = [
             'class' => $className,

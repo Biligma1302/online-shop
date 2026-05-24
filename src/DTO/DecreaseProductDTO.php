@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DTO;
 
-
 class DecreaseProductDTO
 {
     public function __construct(

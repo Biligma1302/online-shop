@@ -14,7 +14,6 @@ use Request\ProductIdRequest;
 
 use Service\CartService;
 
-
 class ProductController extends Controller
 {
     private CartService $cartService;
@@ -25,7 +24,7 @@ class ProductController extends Controller
         $this->cartService = new CartService();
     }
 
-    public function getCatalog()
+    public function getCatalog(): void
     {
         if (!$this->authService->check()) {
             header("Location: /login");
@@ -41,8 +40,7 @@ class ProductController extends Controller
         require_once '../Views/catalog_page.php';
     }
 
-
-    public function addProduct(ProductIdRequest $request)
+    public function addProduct(ProductIdRequest $request): void
     {
         $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
 
@@ -56,7 +54,6 @@ class ProductController extends Controller
             header("Location: /login");
             exit();
         }
-
         $errors = $request->validateProductId();
 
         if (empty($errors)) {
@@ -67,7 +64,6 @@ class ProductController extends Controller
                 $errors['product_id'] = 'Продукт не найден';
             }
         }
-
         if (!empty($errors)) {
             if ($isAjax) {
                 http_response_code(422);
@@ -75,7 +71,6 @@ class ProductController extends Controller
                 echo json_encode(['success' => false, 'errors' => $errors]);
                 exit();
             }
-
             $_SESSION['errors'] = $errors;
             header("Location: /catalog");
             exit();
@@ -97,8 +92,7 @@ class ProductController extends Controller
         exit();
     }
 
-
-    public function decreaseProduct(ProductIdRequest $request)
+    public function decreaseProduct(ProductIdRequest $request): void
     {
         $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
 
@@ -112,7 +106,6 @@ class ProductController extends Controller
             header("Location: /login");
             exit();
         }
-
         $errors = $request->validateProductId();
 
         if (empty($errors)) {
@@ -123,7 +116,6 @@ class ProductController extends Controller
                 $errors['product_id'] = 'Продукт не найден';
             }
         }
-
         if (!empty($errors)) {
             if ($isAjax) {
                 http_response_code(422);
@@ -131,12 +123,10 @@ class ProductController extends Controller
                 echo json_encode(['success' => false, 'errors' => $errors]);
                 exit();
             }
-
             $_SESSION['errors'] = $errors;
             header("Location: /catalog");
             exit();
         }
-
         $dto = new DecreaseProductDTO($request->getProductId());
         $this->cartService->decreaseProduct($dto);
 

@@ -21,5 +21,4 @@ class AuthDTO
     {
         return $this->password;
     }
-
 }

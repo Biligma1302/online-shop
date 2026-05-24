@@ -6,7 +6,6 @@ namespace Model;
 
 class Error extends Model
 {
-
     protected static function getTableName(): string
     {
         return 'errors';
@@ -27,5 +26,3 @@ class Error extends Model
         ]);
     }
 }
-
-

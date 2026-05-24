@@ -7,10 +7,13 @@ namespace Controllers;
 use DTO\AuthDTO;
 use DTO\RegisterUserDTO;
 use DTO\UpdateProfileDTO;
+
 use Model\User;
+
 use Request\UpdateProfileRequest;
 use Request\LoginRequest;
 use Request\RegistrationRequest;
+
 use Service\UserService;
 
 class UserController extends Controller
@@ -23,7 +26,7 @@ class UserController extends Controller
         $this->userService = new UserService();
     }
 
-    public function getRegistrateForm()
+    public function getRegistrateForm(): void
     {
         if ($this->authService->check()) {
             header("Location: /catalog");
@@ -31,7 +34,7 @@ class UserController extends Controller
         require_once '../Views/registration_form.php';
     }
 
-    public function registrate(RegistrationRequest $request)
+    public function registrate(RegistrationRequest $request): void
     {
         $errors = $request->validate();
 
@@ -41,7 +44,6 @@ class UserController extends Controller
                 $request->getEmail(),
                 $request->getPsw()
             );
-
             $this->userService->registerUser($dto);
             header("Location: /login");
             exit();
@@ -49,8 +51,7 @@ class UserController extends Controller
         require_once '../Views/registration_form.php';
     }
 
-
-    public function getLogin()
+    public function getLogin(): void
     {
         if ($this->authService->check()) {
             header("Location: /catalog");
@@ -60,8 +61,7 @@ class UserController extends Controller
         }
     }
 
-
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): void
     {
         $errors = $request->validate();
 
@@ -78,8 +78,7 @@ class UserController extends Controller
         require_once '../Views/login_form.php';
     }
 
-
-    public function showProfile()
+    public function showProfile(): void
     {
         if ($this->authService->check()) {
             $user = $this->authService->getCurrentUser();
@@ -93,13 +92,13 @@ class UserController extends Controller
         }
     }
 
-    public function editProfile()
+    public function editProfile(): void
     {
         $user = $this->authService->getCurrentUser();
         require_once '../Views/edit_profile_form.php';
     }
 
-    public function updateProfile(UpdateProfileRequest $request)
+    public function updateProfile(UpdateProfileRequest $request): void
     {
         if (!$this->authService->check()) {
             header("Location: /login");
@@ -113,7 +112,6 @@ class UserController extends Controller
             if ($userByEmail != null && $userByEmail->getId() !== $user->getId()) {
                 $errors['email'] = "Этот email уже зарегистрирован";
             }
-
             if (empty($errors)) {
                 $dto = new UpdateProfileDTO($user, $request->getName(), $request->getEmail());
 
@@ -129,15 +127,10 @@ class UserController extends Controller
         }
     }
 
-
-
-
-    public function logout()
+    public function logout(): void
     {
         $this->authService->logout();
         header("Location: /login");
         exit();
     }
 }
-
-

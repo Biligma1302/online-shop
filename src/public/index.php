@@ -8,7 +8,6 @@ if (file_exists($envFile)) {
     }
 }
 
-
 use Controllers\CartController;
 use Controllers\OrderController;
 use Controllers\ProductController;
@@ -23,7 +22,6 @@ require_once "./../Core/Autoloader.php";
 
 $path = dirname(__DIR__);
 \Core\Autoloader::register($path);
-
 
 $app = new Core\App();
 
@@ -48,5 +46,3 @@ $app->get('/reviews', ReviewController::class, 'getReviews');
 $app->post('/reviews-post', ReviewController::class, 'postReviews', ReviewCreateRequest::class);
 $app->get('/logout', UserController::class, 'logout');
 $app->run();
-
-

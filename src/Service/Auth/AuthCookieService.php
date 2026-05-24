@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Service\Auth;
 
 use DTO\AuthDTO;
@@ -41,7 +43,7 @@ class AuthCookieService implements AuthInterface
 
             if (password_verify($dto->getPassword(), $passwordDb)) {
                 setcookie('logged_in', 'true');
-                setcookie('user_id', $user->getId());
+                setcookie('user_id', (string)$user->getId());
                 setcookie('user_name', $user->getName());
                 setcookie('user_email', $user->getEmail());
 

@@ -35,5 +35,4 @@ class ReviewCreateDTO
     {
         return $this->rating;
     }
-
 }

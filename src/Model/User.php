@@ -16,7 +16,6 @@ class User extends Model
         return 'users';
     }
 
-
     public static function getByEmail(string $email): self|null
     {
         $tableName = static::getTableName();
@@ -68,7 +67,7 @@ class User extends Model
         return $obj;
     }
 
-    public static function insertInto(string $name, string $email, string $hashedPassword)
+    public static function insertInto(string $name, string $email, string $hashedPassword): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -116,7 +115,4 @@ class User extends Model
     {
         return $this->password;
     }
-
-
 }
-

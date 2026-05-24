@@ -20,7 +20,6 @@ class Order extends Model
         return 'orders';
     }
 
-
     public static function create(
         string $contactName,
         string $contactPhone,
@@ -116,8 +115,4 @@ class Order extends Model
     {
         return $this->id;
     }
-
 }
-
-
-

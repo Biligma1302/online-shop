@@ -10,7 +10,6 @@ use Model\Review;
 
 class ReviewService
 {
-
     public function createReviews(ReviewCreateDTO $dto): void
     {
         Review::create

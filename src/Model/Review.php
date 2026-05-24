@@ -17,8 +17,7 @@ class Review extends Model
         return 'reviews';
     }
 
-
-    public static function create(int $user_id, int $product_id, string $comment, int $rating)
+    public static function create(int $user_id, int $product_id, string $comment, int $rating): bool
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -55,7 +54,6 @@ class Review extends Model
         return $reviews;
     }
 
-
     public function getRating(): int
     {
         return $this->rating;
@@ -80,13 +78,4 @@ class Review extends Model
     {
         return $this->created_at;
     }
-
-
 }
-
-
-
-
-
-
-

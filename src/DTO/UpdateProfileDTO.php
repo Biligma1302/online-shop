@@ -29,5 +29,4 @@ class UpdateProfileDTO
     {
         return $this->email;
     }
-
 }
