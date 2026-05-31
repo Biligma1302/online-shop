@@ -52,7 +52,6 @@ class App
         }
     }
 
-
     public function get(string $route, string $className, string $method, ?string $requestClass = null): void
     {
         $this->routes[$route]['GET'] = [

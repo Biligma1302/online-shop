@@ -55,7 +55,6 @@ class ProductController extends Controller
             exit();
         }
         $errors = $request->validateProductId();
-
         if (empty($errors)) {
             $product_id = $request->getProductId();
             $product = Product::getById($product_id);

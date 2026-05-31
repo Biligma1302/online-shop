@@ -697,3 +697,111 @@ Line:37
 Date24.05.2026 08:49:41
 
 
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:20
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:22
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:22
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:22
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:23
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:23
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:23
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:24
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:24
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:24
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:25
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:25
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:25
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:25
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:25
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:30
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:31
+
+
+Message:Too few arguments to function Controllers\ProductController::addProduct(), 1 passed in /var/www/html/src/Core/App.php on line 37 and exactly 2 expected
+File:/var/www/html/src/Controllers/ProductController.php
+Line:43
+Date28.05.2026 11:10:31
+
+

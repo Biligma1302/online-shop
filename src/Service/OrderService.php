@@ -18,7 +18,6 @@ class OrderService
     private AuthInterface $authService;
     private CartService $cartService;
 
-
     public function __construct()
     {
         $this->authService = new AuthSessionService();

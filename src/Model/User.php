@@ -92,7 +92,6 @@ class User extends Model
         $obj->name = $user["name"];
         $obj->email = $user["email"];
         $obj->password = $user["password"];
-
         return $obj;
     }
 

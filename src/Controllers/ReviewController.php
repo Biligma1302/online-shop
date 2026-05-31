@@ -55,7 +55,6 @@ class ReviewController extends Controller
             header("Location: /login");
             exit;
         }
-
         $user = $this->authService->getCurrentUser();
 
         $errors = $request->validate();

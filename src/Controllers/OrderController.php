@@ -65,6 +65,6 @@ class OrderController extends Controller
         }
         $newUserOrders = $this->orderService->getUserOrdersHistory();
 
-        require_once './../Views/My_orders_form.php';
+        require_once './../Views/my_orders_form.php';
     }
 }

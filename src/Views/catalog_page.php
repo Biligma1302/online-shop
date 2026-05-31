@@ -16,8 +16,9 @@
         <a href="/profile" class="nav-link profile-link">
             🏠 👤 Личный кабинет (<?= $_SESSION['user_name'] ?? 'Гость' ?>)
         </a>
-        <a href="../cart" class="nav-link">🛒 Корзина (<?= number_format($totalSum ?? 0, 0, '.', ' ') ?> ₽)</a>
+        <a href="../cart" class="nav-link">🛒 Корзина (<span class="cart-total-sum"><?= number_format($totalSum ?? 0, 0, '.', ' ') ?></span> ₽)</a>
     </nav>
+
 </header>
 
 <div class="container">
@@ -83,6 +84,7 @@
                 success: function (response) {
                     var badge = form.closest('.controls-wrapper').find('.amount-badge');
                     badge.text(response.newAmount);
+                 //   $('.cart-total-sum').text(response.totalSum);
                 },
                 error: function (xhr) {
                     if (xhr.status === 401) { window.location.href = '/login'; }

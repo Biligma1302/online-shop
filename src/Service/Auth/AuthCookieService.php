@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service\Auth;
 
 use DTO\AuthDTO;
+
 use Model\User;
 
 class AuthCookieService implements AuthInterface
