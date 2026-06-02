@@ -4,21 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог товаров</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header class="main-header">
     <nav class="nav-container">
         <a href="/profile" class="nav-link profile-link">
-            🏠 👤 Личный кабинет (<?= $_SESSION['user_name'] ?? 'Гость' ?>)
+            🏠 👤 Личный кабинет (<?= htmlspecialchars($_SESSION['user_name'] ?? 'Гость') ?>)
         </a>
-        <a href="../cart" class="nav-link">🛒 Корзина (<span class="cart-total-sum"><?= number_format($totalSum ?? 0, 0, '.', ' ') ?></span> ₽)</a>
+        <a href="../cart" class="nav-link">
+            🛒 Корзина (<span class="cart-total-sum" id="js-cart-total-header"><?= number_format($totalSum ?? 0, 0, '.', ' ') ?></span> ₽)
+        </a>
     </nav>
-
 </header>
 
 <div class="container">
@@ -27,10 +24,10 @@
         <?php
         foreach ($products as $product): ?>
             <?php
-            $productId = $product->getId(); ?>
-            <div class="card text-center">
-
-
+            $productId = $product->getId();
+            $productPrice = method_exists($product, 'getPrice') ? $product->getPrice() : 0;
+            ?>
+            <div class="card text-center" data-price="<?= (float)$productPrice; ?>">
                 <img class="card-img-top" src="<?= htmlspecialchars($product->getImageUrl()); ?>"
                      alt="<?= htmlspecialchars($product->getName()); ?>">
 
@@ -39,15 +36,15 @@
                     <h5 class="card-title"><?= htmlspecialchars($product->getDescription()); ?></h5>
 
                     <div class="controls-wrapper">
-
                         <form class="ajax-form" action="/add-product" method="POST">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
                             <button type="submit" class="registerbtn btn-plus">+</button>
                         </form>
 
                         <span class="amount-badge">
-        <?= isset($userProducts[$productId]) ? (int)$userProducts[$productId]->getAmount() : 0; ?>
-    </span>
+                            <?= isset($userProducts[$productId]) ? (int)$userProducts[$productId]->getAmount() : 0; ?>
+                        </span>
+
                         <form class="ajax-form" action="/decrease-product" method="POST">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
                             <button type="submit" class="registerbtn btn-minus">-</button>
@@ -73,6 +70,18 @@
 
 <script>
     $(document).ready(function () {
+        function formatPrice(num) {
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+        function recalcCartHeader() {
+            var total = 0;
+            $('.card[data-price]').each(function () {
+                var price = parseFloat($(this).data('price')) || 0;
+                var amount = parseInt($(this).find('.amount-badge').text()) || 0;
+                total += price * amount;
+            });
+            $('#js-cart-total-header').text(formatPrice(total));
+        }
         $('.ajax-form').submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -82,13 +91,15 @@
                 data: form.serialize(),
                 dataType: 'json',
                 success: function (response) {
-                    var badge = form.closest('.controls-wrapper').find('.amount-badge');
-                    badge.text(response.newAmount);
-                 //   $('.cart-total-sum').text(response.totalSum);
+                    form.closest('.controls-wrapper').find('.amount-badge').text(response.newAmount);
+                    recalcCartHeader();
                 },
                 error: function (xhr) {
-                    if (xhr.status === 401) { window.location.href = '/login'; }
-                    else { console.error("Ошибка:", xhr.responseText); }
+                    if (xhr.status === 401) {
+                        window.location.href = '/login';
+                    } else {
+                        console.error("Ошибка:", xhr.responseText);
+                    }
                 }
             });
         });
@@ -225,7 +236,6 @@
         padding-bottom: 18px;
     }
 
-    /* Общие стили круглых кнопок */
     .registerbtn {
         width: 42px;
         height: 42px;

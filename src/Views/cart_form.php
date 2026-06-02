@@ -68,6 +68,19 @@
 
 <script>
     $(document).ready(function () {
+        function formatPrice(num) {
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+        function recalcCartTotal() {
+            var total = 0;
+            $('.card[data-price]').each(function () {
+                var price = parseFloat($(this).data('price'));
+                var amount = parseInt($(this).find('.amount-badge').text()) || 0;
+                total += price * amount;
+            });
+            $('.js-cart-total').text(formatPrice(total) + ' ₽');
+        }
+
         $('.ajax-form').submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -79,6 +92,21 @@
                 success: function (response) {
                     var badge = form.closest('.controls-wrapper').find('.amount-badge');
                     badge.text(response.newAmount + ' шт.');
+                    var card = form.closest('.card');
+                    var price = parseFloat(card.data('price'));
+
+                    if (response.newAmount <= 0) {
+                        card.remove();
+                        if ($('.card').length === 0) {
+                            // Корзина стала пустой
+                            $('.card-grid').html('<p class="empty-cart">В корзине пока пусто :(</p>');
+                            $('.cart-total-footer').hide();
+                        }
+                    } else {
+                        form.closest('.controls-wrapper').find('.amount-badge').text(response.newAmount + ' шт.');
+                        card.find('.js-item-total').text(formatPrice(price * response.newAmount) + ' ₽');
+                    }
+                    recalcCartTotal();
                 },
                 error: function (xhr) {
                     if (xhr.status === 401) { window.location.href = '/login'; }
