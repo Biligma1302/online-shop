@@ -8,16 +8,16 @@ class Review extends Model
 {
     private int $rating;
     private string $comment;
-    private int $user_id;
-    private int $product_id;
-    private ?string $created_at;
+    private int $userId;
+    private int $productId;
+    private ?string $createdAt;
 
     protected static function getTableName(): string
     {
         return 'reviews';
     }
 
-    public static function create(int $user_id, int $product_id, string $comment, int $rating): bool
+    public static function create(int $userId, int $productId, string $comment, int $rating): bool
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
@@ -25,30 +25,30 @@ class Review extends Model
          VALUES (:user_id, :product_id, :comment, :rating)"
         );
         return $stmt->execute([
-            'user_id' => $user_id,
-            'product_id' => $product_id,
+            'user_id' => $userId,
+            'product_id' => $productId,
             'comment' => $comment,
             'rating' => $rating
         ]);
     }
 
-    public static function getReviewsByProductId(int $product_id): array
+    public static function getReviewsByProductId(int $productId): array
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
             "SELECT * FROM {$tableName} WHERE product_id = :product_id"
         );
-        $stmt->execute(['product_id' => $product_id]);
+        $stmt->execute(['product_id' => $productId]);
         $data = $stmt->fetchAll();
         $reviews = [];
         foreach ($data as $reviewData) {
             $obj = new self();
 
-            $obj->user_id = $reviewData['user_id'];
-            $obj->product_id = $reviewData['product_id'];
+            $obj->userId = $reviewData['user_id'];
+            $obj->productId = $reviewData['product_id'];
             $obj->comment = $reviewData['comment'];
             $obj->rating = $reviewData['rating'];
-            $obj->created_at = $reviewData['created_at'];
+            $obj->createdAt = $reviewData['created_at'];
             $reviews[] = $obj;
         }
         return $reviews;
@@ -66,16 +66,16 @@ class Review extends Model
 
     public function getUserId(): int
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 }

@@ -20,7 +20,7 @@ class UpdateProfileRequest
         return $this->data['email'];
     }
 
-   public function validate(): array
+    public function validate(): array
     {
         $errors = [];
 

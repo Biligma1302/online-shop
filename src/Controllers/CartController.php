@@ -52,8 +52,8 @@ class CartController extends Controller
         }
         $errors = $request->validateProductId();
         if (empty($errors)) {
-            $product_id = $request->getProductId();
-            $product = Product::getById($product_id);
+            $productId = $request->getProductId();
+            $product = Product::getById($productId);
 
             if ($product === null) {
                 $errors['product_id'] = 'Продукт не найден';
@@ -104,8 +104,8 @@ class CartController extends Controller
         $errors = $request->validateProductId();
 
         if (empty($errors)) {
-            $product_id = $request->getProductId();
-            $product = Product::getById($product_id);
+            $productId = $request->getProductId();
+            $product = Product::getById($productId);
 
             if ($product === null) {
                 $errors['product_id'] = 'Продукт не найден';

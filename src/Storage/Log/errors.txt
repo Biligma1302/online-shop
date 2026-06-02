@@ -805,3 +805,21 @@ Line:43
 Date28.05.2026 11:10:31
 
 
+Message:Request\ReviewCreateRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ReviewCreateRequest.php
+Line:15
+Date01.06.2026 12:32:39
+
+
+Message:Request\ReviewCreateRequest::getProductId(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ReviewCreateRequest.php
+Line:15
+Date01.06.2026 12:36:06
+
+
+Message:Request\ReviewCreateRequest::getRating(): Return value must be of type int, string returned
+File:/var/www/html/src/Request/ReviewCreateRequest.php
+Line:20
+Date01.06.2026 12:38:29
+
+

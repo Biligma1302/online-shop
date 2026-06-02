@@ -20,7 +20,7 @@ class OrderController extends Controller
         $this->orderService = new OrderService();
     }
 
-    public function getCheckoutForm():void
+    public function getCheckoutForm(): void
     {
         if (!$this->authService->check()) {
             header("Location: /login");

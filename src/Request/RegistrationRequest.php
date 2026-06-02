@@ -29,7 +29,7 @@ class RegistrationRequest
     {
         $errors = [];
 
-        if (isset($this->data ['name'])) {
+        if (isset($this->data['name'])) {
             $name = $this->data['name'];
 
             if (strlen($name) < 5) {

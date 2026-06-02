@@ -10,7 +10,7 @@ class Product extends Model
     private string $name;
     private string $description;
     private int $price;
-    private string $image_url;
+    private string $imageUrl;
 
     protected static function getTableName(): string
     {
@@ -32,18 +32,18 @@ class Product extends Model
             $obj->name = $product['name'];
             $obj->description = $product['description'];
             $obj->price = (int) $product['price'];
-            $obj->image_url = $product['image_url'];
+            $obj->imageUrl = $product['image_url'];
 
             $result[] = $obj;
         }
         return $result;
     }
 
-    public static function getById(int $product_id): self|null
+    public static function getById(int $productId): self|null
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName} WHERE id = :product_id");
-        $stmt->execute(['product_id' => $product_id]);
+        $stmt->execute(['product_id' => $productId]);
         $product = $stmt->fetch();
 
         if ($product === false) {
@@ -54,7 +54,7 @@ class Product extends Model
         $obj->name = $product['name'];
         $obj->description = $product['description'];
         $obj->price = (int)$product['price'];
-        $obj->image_url = $product['image_url'];
+        $obj->imageUrl = $product['image_url'];
 
         return $obj;
     }
@@ -102,6 +102,6 @@ class Product extends Model
 
     public function getImageUrl(): string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 }

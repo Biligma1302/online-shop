@@ -7,8 +7,8 @@ namespace Model;
 class OrderProduct extends Model
 {
     private int $id;
-    private int $order_id;
-    private int $product_id;
+    private int $orderId;
+    private int $productId;
     private int $amount;
 
     protected static function getTableName(): string
@@ -16,27 +16,27 @@ class OrderProduct extends Model
         return 'order_products';
     }
 
-    public static function create(int $order_id, int $product_id, int $amount): void
+    public static function create(int $orderId, int $productId, int $amount): void
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare(
             "INSERT INTO {$tableName} (order_id, product_id, amount) VALUES (:orderId, :productId, :amount)"
         );
-        $stmt->execute(['orderId' => $order_id, 'productId' => $product_id, 'amount' => $amount]);
+        $stmt->execute(['orderId' => $orderId, 'productId' => $productId, 'amount' => $amount]);
     }
 
-    public static function getAllByOrderId(int $order_id): array
+    public static function getAllByOrderId(int $orderId): array
     {
         $tableName = static::getTableName();
         $stmt = static::getPDO()->prepare("SELECT * FROM {$tableName} WHERE order_id = :order_id");
-        $stmt->execute(['order_id' => $order_id]);
+        $stmt->execute(['order_id' => $orderId]);
         $orderProducts = $stmt->fetchAll();
         $orders = [];
         foreach ($orderProducts as $orderProduct) {
             $obj = new self();
             $obj->id = $orderProduct['id'];
-            $obj->order_id = $orderProduct['order_id'];
-            $obj->product_id = $orderProduct['product_id'];
+            $obj->orderId = $orderProduct['order_id'];
+            $obj->productId = $orderProduct['product_id'];
             $obj->amount = $orderProduct['amount'];
             $orders[] = $obj;
         }
@@ -50,12 +50,12 @@ class OrderProduct extends Model
 
     public function getOrderId(): int
     {
-        return $this->order_id;
+        return $this->orderId;
     }
 
     public function getProductId(): int
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     public function getAmount(): int

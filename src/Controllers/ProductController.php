@@ -34,7 +34,7 @@ class ProductController extends Controller
 
         $products = Product::getProducts();
 
-        $user_products = UserProduct::getAmountCartItems($user->getId());
+        $userProducts = UserProduct::getAmountCartItems($user->getId());
         $totalSum = $this->cartService->getSum();
 
         require_once '../Views/catalog_page.php';
@@ -56,8 +56,8 @@ class ProductController extends Controller
         }
         $errors = $request->validateProductId();
         if (empty($errors)) {
-            $product_id = $request->getProductId();
-            $product = Product::getById($product_id);
+            $productId = $request->getProductId();
+            $product = Product::getById($productId);
 
             if ($product === null) {
                 $errors['product_id'] = 'Продукт не найден';
@@ -108,8 +108,8 @@ class ProductController extends Controller
         $errors = $request->validateProductId();
 
         if (empty($errors)) {
-            $product_id = $request->getProductId();
-            $product = Product::getById($product_id);
+            $productId = $request->getProductId();
+            $product = Product::getById($productId);
 
             if ($product === null) {
                 $errors['product_id'] = 'Продукт не найден';

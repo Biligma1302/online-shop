@@ -25,8 +25,8 @@ class AuthCookieService implements AuthInterface
     public function getCurrentUser(): ?User
     {
         if ($this->check()) {
-            $user_id = $_COOKIE['user_id'];
-            $user = $this->userModel->getById($user_id);
+            $userId = $_COOKIE['user_id'];
+            $user = $this->userModel->getById($userId);
             return $user;
         } else {
             return null;

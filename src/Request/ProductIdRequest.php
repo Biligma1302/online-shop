@@ -19,7 +19,7 @@ class ProductIdRequest
     {
         $errors = [];
         if (isset($this->data['product_id'])) {
-            $product_id = $this->data['product_id'];
+            $productId = $this->data['product_id'];
         } else {
             $errors['product_id'] = 'id продукта должен быть обязательно указан';
         }

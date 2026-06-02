@@ -50,16 +50,14 @@ class CartService
         $data = UserProduct::getUserProduct($dto->getProductId(), $user->getId());
 
         if ($data === null) {
-            UserProduct::insertUserProduct
-            (
+            UserProduct::insertUserProduct(
                 $user->getId(),
                 $dto->getProductId(),
                 $dto->getAmount()
             );
         } else {
             $newAmount = $data->getAmount() + $dto->getAmount();
-            UserProduct::updateUserProduct
-            (
+            UserProduct::updateUserProduct(
                 $newAmount,
                 $user->getId(),
                 $dto->getProductId()
@@ -83,12 +81,14 @@ class CartService
     }
 
     public function getProductAmount(int $productId): int
-     {
+    {
          $user = $this->authService->getCurrentUser();
-         if ($user === null) { return 0; }
+         if ($user === null) {
+             return 0;
+         }
          $data = UserProduct::getUserProduct($productId, $user->getId());
          return $data ? $data->getAmount() : 0;
-     }
+    }
 
     public function getSum(): float
     {

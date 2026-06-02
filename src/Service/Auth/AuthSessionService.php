@@ -27,8 +27,8 @@ class AuthSessionService implements AuthInterface
     {
         $this->startSession();
         if ($this->check()) {
-            $user_id = $_SESSION['user_id'];
-            $user = $this->userModel->getById($user_id);
+            $userId = $_SESSION['user_id'];
+            $user = $this->userModel->getById($userId);
             return $user;
         } else {
             return null;

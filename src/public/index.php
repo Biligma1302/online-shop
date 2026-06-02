@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 $envFile = __DIR__ . '/../../.env';
 if (file_exists($envFile)) {
-    foreach (parse_ini_file($envFile) as $key => $value)
-    {
+    foreach (parse_ini_file($envFile) as $key => $value) {
         putenv("$key=$value");
     }
 }

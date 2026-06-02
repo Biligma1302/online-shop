@@ -7,6 +7,7 @@ namespace DTO;
 class UserProductDTO
 {
     private ?ProductDTO $product = null;
+
     public function __construct(
         private int $id,
         private int $userId,

@@ -12,8 +12,7 @@ class ReviewService
 {
     public function createReviews(ReviewCreateDTO $dto): void
     {
-        Review::create
-        (
+        Review::create(
             $dto->getUser()->getId(),
             $dto->getProductId(),
             $dto->getComment(),

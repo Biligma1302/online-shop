@@ -11,8 +11,9 @@ class OrderProductDTO
         private float $price,
         private int $amount,
         private string $imageUrl,
-    ){
+    ) {
     }
+
     public function getProductName(): string
     {
         return $this->productName;

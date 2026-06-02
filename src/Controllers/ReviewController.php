@@ -29,14 +29,14 @@ class ReviewController extends Controller
             header('Location: /catalog');
             exit;
         }
-        $product_id = $_GET['product_id'];
+        $productId = $_GET['product_id'];
 
-        if ($product_id) {
+        if ($productId) {
             if ($this->authService->check()) {
                 $user = $this->authService->getCurrentUser();
-                $product = Product::getById((int)$product_id);
+                $product = Product::getById((int)$productId);
                 if ($product) {
-                    $reviewsList = Review::getReviewsByProductId((int)$product_id);
+                    $reviewsList = Review::getReviewsByProductId((int)$productId);
                     require_once '../Views/reviews_page.php';
                 } else {
                     header('Location: /catalog');

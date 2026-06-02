@@ -12,12 +12,12 @@ class ReviewCreateRequest
 
     public function getProductId(): int
     {
-        return $this->data['product_id'];
+        return (int)$this->data['product_id'];
     }
 
     public function getRating(): int
     {
-        return $this->data['rating'];
+        return (int)$this->data['rating'];
     }
 
     public function getComment(): string

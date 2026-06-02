@@ -7,6 +7,7 @@ namespace DTO;
 class OrderHistoryDTO
 {
     private array $products = [];
+
     public function __construct(
         private int $orderId,
         private string $contactName,
@@ -18,7 +19,7 @@ class OrderHistoryDTO
 
     public function addProduct(OrderProductDTO $product): void
     {
-    $this->products[] = $product;
+        $this->products[] = $product;
     }
 
     public function getOrderId(): int

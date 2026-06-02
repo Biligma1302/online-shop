@@ -46,7 +46,7 @@
                         </form>
 
                         <span class="amount-badge">
-        <?= isset($user_products[$productId]) ? (int)$user_products[$productId]->getAmount() : 0; ?>
+        <?= isset($userProducts[$productId]) ? (int)$userProducts[$productId]->getAmount() : 0; ?>
     </span>
                         <form class="ajax-form" action="/decrease-product" method="POST">
                             <input type="hidden" name="product_id" value="<?= $productId; ?>">
